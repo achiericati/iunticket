@@ -23,7 +23,7 @@ const MainPage: React.FC = () => {
     userContext.setCurrentUser(loggedUser)
   }, [loggedUser]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     const fetchMatches = async () => {
       try {
         const response = await axios.get('http://localhost:3001/api/match');
@@ -34,7 +34,7 @@ const MainPage: React.FC = () => {
     };
 
     fetchMatches();
-  }, []);
+  }, []);*/
 
   const handleShowTickets = async (matchID: number) => {
     try {
