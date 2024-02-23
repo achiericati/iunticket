@@ -33,8 +33,6 @@ const LoginRegisterUserDialog = ({
     const [showError, setShowError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
 
-    const userContext = new UserContext();
-
     useEffect(() => {
       setUsername('')
       setPassword('')

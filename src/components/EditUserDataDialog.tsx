@@ -41,7 +41,7 @@ const EditUserDataDialog = ({
           setCellulare(loggedUser.cellulare || '')
           setEmail(loggedUser.mail || '')
         }
-    }, [openDialog]);
+    }, [openDialog, loggedUser]);
 
     const editUser = async () => {
       if (username === '' || password === '') {
