@@ -6,7 +6,6 @@ import { Box, Button, DialogContentText, Snackbar, TextField } from '@mui/materi
 import { useEffect, useState } from 'react'
 import UserInfoInputComponents from './UserInfoInputComponents'
 import axios from 'axios'
-import { UserContext } from '../utils/userContext'
 import { User } from '../utils/interfaces'
 
 interface Props {

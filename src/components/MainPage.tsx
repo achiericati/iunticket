@@ -21,7 +21,7 @@ const MainPage: React.FC = () => {
   useEffect(() => {
     setLoggedUser(loggedUser)
     userContext.setCurrentUser(loggedUser)
-  }, [loggedUser, userContext]);
+  }, [loggedUser]);
 
   useEffect(() => {
     const fetchMatches = async () => {
