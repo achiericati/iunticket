@@ -12,13 +12,13 @@ const connection = mysql.createConnection({
   //password: 'la_tua_password_mysql',
   database: 'iUnTicket',
 });
-connection.connect((err) => {
+/*connection.connect((err) => {
   if (err) {
     console.error('Errore durante la connessione al database:', err);
   } else {
     console.log('Connessione al database MySQL riuscita!');
   }
-});
+});*/
 
 app.use(cors());
 app.use(bodyParser.json());
