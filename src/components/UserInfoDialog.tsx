@@ -9,7 +9,6 @@ import InstagramIcon from '@mui/icons-material/Instagram'
 import InfoIcon from '@mui/icons-material/Info'
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail'
 import PhoneIcon from '@mui/icons-material/Phone'
-import { useEffect } from 'react'
 
 interface Props {
     open: boolean;
