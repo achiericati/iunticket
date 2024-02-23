@@ -6,13 +6,13 @@ import mysql from 'mysql2';
 const app = express();
 const PORT = 3001;
 
-const connection = mysql.createConnection({
+/*const connection = mysql.createConnection({
   host: '127.0.0.1',
   user: 'root',
   //password: 'la_tua_password_mysql',
   database: 'iUnTicket',
 });
-/*connection.connect((err) => {
+connection.connect((err) => {
   if (err) {
     console.error('Errore durante la connessione al database:', err);
   } else {
