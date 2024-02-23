@@ -75,7 +75,6 @@ const MainPage: React.FC = () => {
          :
          <TicketsTable tickets={tickets} setTickets={setTickets} currentMatch={currentMatch} loggedUser={loggedUser}></TicketsTable>
        }
-         
       </Paper>
       
     </Box>
