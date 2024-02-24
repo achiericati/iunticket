@@ -17,6 +17,7 @@
   },
   "scripts": {
     "start": "serve -s build",
+    "dev": "react-scripts start",
     "start:client": "react-scripts start",
     "start:server": "cd server && npm start",
     "build": "react-scripts build",
