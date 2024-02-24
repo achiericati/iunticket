@@ -6,7 +6,7 @@ const app = express();
 const PORT = 3001;
 
 app.use(cors({
-  origin: 'https://iunticket-fdba432ee24a.herokuapp.com',
+  origin: 'https://iunticket-fdba432ee24a.herokuapp.com:3001',
 }));
 
 /*const corsOptions = {
