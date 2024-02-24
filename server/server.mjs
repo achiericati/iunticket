@@ -5,7 +5,11 @@ import bodyParser from 'body-parser';
 const app = express();
 const PORT = 3001;
 
-app.use(cors());
+const corsOptions = {
+  origin: 'http://localhost:3001',
+};
+
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.get('/api/match', (req, res) => {
