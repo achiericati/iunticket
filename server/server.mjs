@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import mysql from 'mysql2';
 
 const app = express();
 const PORT = 31491 // process.env.PORT ?
