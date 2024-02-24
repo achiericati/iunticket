@@ -9,7 +9,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/api/match', (req, res) => {
-  res.json({});
+  res.json([]);
 });
 
 app.get('/api/tickets', (req, res) => {
