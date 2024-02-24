@@ -69,7 +69,7 @@ const TicketsTable = ({
   
     const handleShowInfoUtente = async (userName: string) => {
       try {
-        const response = await axios.get('http://localhost:3001/api/infoUser?userName='+userName);
+        const response = await axios.get('https://iunticket-fdba432ee24a.herokuapp.com/api/infoUser?userName='+userName);
         if (response.data && response.data.length > 0) setInfoUtente(response.data[0]);
         setInfoUtenteDialogOpened(true);
       } catch (error) {

@@ -51,7 +51,7 @@ const AddTicketsDialog = ({
           necessariaTdt: necessariaTDT,
           prezzo: prezzo
         }
-        const response = await axios.post('http://localhost:3001/api/tickets', body);
+        const response = await axios.post('https://iunticket-fdba432ee24a.herokuapp.com/api/tickets', body);
         const newTickets = [...tickets]
         if (response && response.data && response.data.length > 0) newTickets.push(response.data[0])
         setTickets(newTickets)

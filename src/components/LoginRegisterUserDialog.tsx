@@ -45,7 +45,7 @@ const LoginRegisterUserDialog = ({
     const loginOrRegister = async () => {
       if (view === 'LOGIN') {
         try {
-          const response = await axios.get('http://localhost:3001/api/login?userName='+username+'&password='+password);
+          const response = await axios.get('https://iunticket-fdba432ee24a.herokuapp.com/api/login?userName='+username+'&password='+password);
           if (response.data && response.data.length > 0) setLoggedUser(response.data[0])
           setMainView('LOGGED')
           setLoggedUser(response.data[0])
@@ -82,7 +82,7 @@ const LoginRegisterUserDialog = ({
             email: email,
             created: created
           }
-          const response = await axios.post('http://localhost:3001/api/register', body);
+          const response = await axios.post('https://iunticket-fdba432ee24a.herokuapp.com/api/register', body);
 
           if (response.data && response.data.length > 0) setLoggedUser(response.data[0])
           setMainView('LOGGED')
