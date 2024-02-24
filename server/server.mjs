@@ -5,11 +5,15 @@ import bodyParser from 'body-parser';
 const app = express();
 const PORT = 3001;
 
-const corsOptions = {
+app.use(cors({
+  origin: 'https://iunticket-fdba432ee24a.herokuapp.com',
+}));
+
+/*const corsOptions = {
   origin: 'https://localhost:3001',
 };
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptions));*/
 app.use(bodyParser.json());
 
 app.get('/api/match', (req, res) => {
