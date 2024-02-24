@@ -5,11 +5,34 @@ import bodyParser from 'body-parser';
 const app = express();
 const PORT = 31491 // process.env.PORT ?
 
+const connection = mysql.createConnection({
+  host: 'fojvtycq53b2f2kx.chr7pe7iynqr.eu-west-1.rds.amazonaws.com',
+  port: 3306,
+  user: 'e2e1t0be0bajscy6',
+  password: 'weppym9ooaznbzhn',
+  database: 'xb5zcyvrzawwwe2i'
+});
+connection.connect((err) => {
+  if (err) {
+    console.error('Errore durante la connessione al database:', err);
+  } else {
+    console.log('Connessione al database MySQL riuscita!');
+  }
+});
+
 app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/api/match', (req, res) => {
-  res.json([]);
+  const sql = `SELECT iUnTicket.partita.ID, iUnTicket.partita.partita, iUnTicket.partita.data, COUNT(iUnTicket.ticket.partitaID) AS bigliettiDisponibili, MIN(iUnTicket.ticket.prezzo) AS prezzoMin FROM iUnTicket.partita LEFT JOIN iUnTicket.ticket ON iUnTicket.partita.ID = iUnTicket.ticket.partitaID GROUP BY iUnTicket.partita.ID;`;
+  connection.query(sql, (error, results, fields) => {
+    if (error) {
+      console.error('Errore nella query:', error);
+      res.status(500).send('Errore nel server.');
+    } else {
+      res.json(results);
+    }
+  });
 });
 
 app.get('/api/tickets', (req, res) => {
