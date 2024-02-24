@@ -6,10 +6,10 @@ import mysql from 'mysql2';
 const app = express();
 const PORT = 3001;
 
-/*const connection = mysql.createConnection({
-  host: '127.0.0.1',
-  user: 'root',
-  //password: 'la_tua_password_mysql',
+const connection = mysql.createConnection({
+  host: '127.0.0.1', // TODO
+  user: 'root', // TODO
+  password: 'la_tua_password_mysql', // TODO
   database: 'iUnTicket',
 });
 connection.connect((err) => {
@@ -18,7 +18,7 @@ connection.connect((err) => {
   } else {
     console.log('Connessione al database MySQL riuscita!');
   }
-});*/
+});
 
 app.use(cors());
 app.use(bodyParser.json());

@@ -16,7 +16,7 @@ const MainPage: React.FC = () => {
   const [matches, setMatches] = useState<Match[]>([]);
   const [tickets, setTickets] = useState<Ticket[]>([]);
   const [currentMatch, setCurrentMatch] = useState<Match>();
-  const [loggedUser, setLoggedUser] = useState<User | null>(userContext.getCurrentUser());
+  const [loggedUser, setLoggedUser] = useState<User | null>(null); //userContext.getCurrentUser()
 
   useEffect(() => {
     setLoggedUser(loggedUser)
