@@ -3,17 +3,9 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
-app.use(cors({
-  origin: 'https://iunticket-fdba432ee24a.herokuapp.com',
-}));
-
-/*const corsOptions = {
-  origin: 'https://localhost:3001',
-};
-
-app.use(cors(corsOptions));*/
+app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/api/match', (req, res) => {
@@ -173,7 +165,6 @@ app.get('/api/tickets', (req, res) => {
         });
   });
 
-  
 app.listen(PORT, () => {
-  console.log(`Server listening on port ${app.toString()}`);
+  console.log(`Server listening on port ${PORT}`);
 });
