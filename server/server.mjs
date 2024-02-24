@@ -1,38 +1,15 @@
 import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-import mysql from 'mysql2';
 
 const app = express();
 const PORT = 3001;
-
-const connection = mysql.createConnection({
-  host: '127.0.0.1', // TODO
-  user: 'root', // TODO
-  password: 'la_tua_password_mysql', // TODO
-  database: 'iUnTicket',
-});
-connection.connect((err) => {
-  if (err) {
-    console.error('Errore durante la connessione al database:', err);
-  } else {
-    console.log('Connessione al database MySQL riuscita!');
-  }
-});
 
 app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/api/match', (req, res) => {
-  const sql = `SELECT iUnTicket.partita.ID, iUnTicket.partita.partita, iUnTicket.partita.data, COUNT(iUnTicket.ticket.partitaID) AS bigliettiDisponibili, MIN(iUnTicket.ticket.prezzo) AS prezzoMin FROM iUnTicket.partita LEFT JOIN iUnTicket.ticket ON iUnTicket.partita.ID = iUnTicket.ticket.partitaID GROUP BY iUnTicket.partita.ID;`;
-  connection.query(sql, (error, results, fields) => {
-    if (error) {
-      console.error('Errore nella query:', error);
-      res.status(500).send('Errore nel server.');
-    } else {
-      res.json(results);
-    }
-  });
+  res.json({});
 });
 
 app.get('/api/tickets', (req, res) => {
