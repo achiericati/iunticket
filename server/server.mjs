@@ -31,6 +31,7 @@ app.get('/api/match', (req, res) => {
       console.error('Errore nella query:', error);
       res.status(500).send('Errore nel server.');
     } else {
+      console.log('API OK: ', results);
       res.json(results);
     }
   });
