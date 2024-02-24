@@ -25,7 +25,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/api/match', (req, res) => {
-  const sql = `SELECT iUnTicket.partita.ID, iUnTicket.partita.partita, iUnTicket.partita.data, COUNT(iUnTicket.ticket.partitaID) AS bigliettiDisponibili, MIN(iUnTicket.ticket.prezzo) AS prezzoMin FROM iUnTicket.partita LEFT JOIN iUnTicket.ticket ON iUnTicket.partita.ID = iUnTicket.ticket.partitaID GROUP BY iUnTicket.partita.ID;`;
+  const sql = `SELECT partita.ID, partita.partita, partita.data, COUNT(ticket.partitaID) AS bigliettiDisponibili, MIN(ticket.prezzo) AS prezzoMin FROM partita LEFT JOIN ticket ON partita.ID = ticket.partitaID GROUP BY partita.ID;`;
   connection.query(sql, (error, results, fields) => {
     if (error) {
       console.error('Errore nella query:', error);
@@ -38,7 +38,7 @@ app.get('/api/match', (req, res) => {
 
 app.get('/api/tickets', (req, res) => {
   const partitaID = req.query.matchID;
-  const sql = 'SELECT * FROM iUnTicket.ticket WHERE partitaID = ?';
+  const sql = 'SELECT * FROM ticket WHERE partitaID = ?';
   connection.query(sql, [partitaID], (error, results, fields) => {
     if (error) {
       console.error('Errore nella query:', error);
@@ -51,7 +51,7 @@ app.get('/api/tickets', (req, res) => {
 
   app.get('/api/infoUser', (req, res) => {
     const userName = req.query.userName;
-    const sql = 'SELECT * FROM iUnTicket.user WHERE username = ?';
+    const sql = 'SELECT * FROM user WHERE username = ?';
     connection.query(sql, [userName], (error, results, fields) => {
     if (error) {
       console.error('Errore nella query:', error);
@@ -65,7 +65,7 @@ app.get('/api/tickets', (req, res) => {
   app.get('/api/login', (req, res) => {
     const userName = req.query.userName;
     const pwd = req.query.password;
-    const sql = 'SELECT * FROM iUnTicket.user WHERE username = ? and password = ?';
+    const sql = 'SELECT * FROM user WHERE username = ? and password = ?';
     connection.query(sql, [userName, pwd], (error, results, fields) => {
     if (error) {
       console.error('Errore nella query:', error);
@@ -79,7 +79,7 @@ app.get('/api/tickets', (req, res) => {
 
   app.post('/api/register', (req, res) => {
     const userName = req.body.userName;
-    const sql = 'SELECT * FROM iUnTicket.user WHERE username = ?';
+    const sql = 'SELECT * FROM user WHERE username = ?';
     connection.query(sql, [userName], (error, results, fields) => {
     if (error) {
       res.status(500).send('Errore nel server.');
@@ -97,13 +97,13 @@ app.get('/api/tickets', (req, res) => {
         const email = req.body.email || ''
         const created = req.body.created;
 
-        const sql = 'INSERT INTO iUnTicket.user (username, nome, cognome, mail, instagram, cellulare, password, created_date) VALUES (?,?,?,?,?,?,?,?)';
+        const sql = 'INSERT INTO user (username, nome, cognome, mail, instagram, cellulare, password, created_date) VALUES (?,?,?,?,?,?,?,?)';
         connection.query(sql, [userName, nome, cognome, email, instagram, cellulare, pwd, created], (error, results) => {
         if (error) {
           console.log(error)
           res.status(500).send('Errore nel server.');
         } else {
-          const sql = 'SELECT * FROM iUnTicket.user WHERE username = ?';
+          const sql = 'SELECT * FROM user WHERE username = ?';
           connection.query(sql, [userName], (error, results, fields) => {
           if (error) {
             console.error('Errore nella query:', error);
@@ -129,13 +129,13 @@ app.get('/api/tickets', (req, res) => {
     const cellulare = req.body.cellulare || ''
     const email = req.body.email || ''
 
-    const sql = 'UPDATE iUnTicket.user set password = ?, nome = ?, cognome = ?, mail = ?, instagram = ?, cellulare = ? WHERE username = ?';
+    const sql = 'UPDATE user set password = ?, nome = ?, cognome = ?, mail = ?, instagram = ?, cellulare = ? WHERE username = ?';
     connection.query(sql, [pwd, nome, cognome, email, instagram, cellulare, userName], (error, results) => {
     if (error) {
       console.log(error)
       res.status(500).send('Errore nel server.');
     } else {
-      const sql = 'SELECT * FROM iUnTicket.user WHERE username = ?';
+      const sql = 'SELECT * FROM user WHERE username = ?';
       connection.query(sql, [userName], (error, results, fields) => {
       if (error) {
         console.error('Errore nella query:', error);
@@ -158,13 +158,13 @@ app.get('/api/tickets', (req, res) => {
     const necessariaTdt = req.body.necessariaTdt
     const prezzo = req.body.prezzo || null
 
-    const sql = 'INSERT INTO iUnTicket.ticket (partitaID, user, anello, settore, fila, posti, necessariaTdt, prezzo) VALUES (?,?,?,?,?,?,?,?)';
+    const sql = 'INSERT INTO ticket (partitaID, user, anello, settore, fila, posti, necessariaTdt, prezzo) VALUES (?,?,?,?,?,?,?,?)';
         connection.query(sql, [partitaID, userName, anello, settore, fila, posti, necessariaTdt, prezzo], (error, results) => {
         if (error) {
           console.log(error)
           res.status(500).send('Errore nel server.');
         } else {
-          const sql = 'SELECT * FROM iUnTicket.ticket WHERE id = LAST_INSERT_ID()';
+          const sql = 'SELECT * FROM ticket WHERE id = LAST_INSERT_ID()';
           connection.query(sql, [], (error, results, fields) => {
           if (error) {
             res.status(500).send('Errore nel server.');
@@ -178,7 +178,7 @@ app.get('/api/tickets', (req, res) => {
 
   app.post('/api/deleteTickets', (req, res) => {
     const ticketID = req.body.ticketID;
-    const sql = 'DELETE FROM iUnTicket.ticket WHERE id = ?';
+    const sql = 'DELETE FROM ticket WHERE id = ?';
         connection.query(sql, [ticketID], (error, results) => {
         if (error) {
           console.log(error)
