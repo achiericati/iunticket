@@ -26,7 +26,7 @@ const MainPage: React.FC = () => {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        const response = await axios.get('https://iunticket-fdba432ee24a.herokuapp.com:31491/api/match');
+        const response = await axios.get('https://localhost:31491/api/match');
         setMatches(response.data);
       } catch (error) {
         console.error('Errore nel recupero delle partite:', error);

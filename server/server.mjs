@@ -4,14 +4,13 @@ import bodyParser from 'body-parser';
 import mysql from 'mysql2';
 
 const app = express();
-const PORT = 31491 // process.env.PORT ?
+const PORT = 31491 // process.env.PORT no perchè sarebbe la stessa del client
 
 const connection = mysql.createConnection({
-  host: 'fojvtycq53b2f2kx.chr7pe7iynqr.eu-west-1.rds.amazonaws.com',
-  port: 3306,
-  user: 'e2e1t0be0bajscy6',
-  password: 'weppym9ooaznbzhn',
-  database: 'xb5zcyvrzawwwe2i'
+  host: 'wm0gxg.stackhero-network.com',
+  user: 'root',
+  password: 'Q9jYXi1hw3CXBOYWXgXwtK4IEYHjWCWK',
+  database: 'root'
 });
 connection.connect((err) => {
   if (err) {
