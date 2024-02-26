@@ -6,7 +6,7 @@ import mysql from 'mysql2';
 const app = express();
 const PORT = 31491 // process.env.PORT no perchè sarebbe la stessa del client
 
-const connection = mysql.createConnection({
+/*const connection = mysql.createConnection({
   host: 'wm0gxg.stackhero-network.com',
   user: 'root',
   password: 'Q9jYXi1hw3CXBOYWXgXwtK4IEYHjWCWK',
@@ -18,13 +18,13 @@ connection.connect((err) => {
   } else {
     console.log('Connessione al database MySQL riuscita!');
   }
-});
+});*/
 
 app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/api/match', (req, res) => {
-  const sql = `SELECT partita.ID, partita.partita, partita.data, COUNT(ticket.partitaID) AS bigliettiDisponibili, MIN(ticket.prezzo) AS prezzoMin FROM partita LEFT JOIN ticket ON partita.ID = ticket.partitaID GROUP BY partita.ID;`;
+  /*const sql = `SELECT partita.ID, partita.partita, partita.data, COUNT(ticket.partitaID) AS bigliettiDisponibili, MIN(ticket.prezzo) AS prezzoMin FROM partita LEFT JOIN ticket ON partita.ID = ticket.partitaID GROUP BY partita.ID;`;
   connection.query(sql, (error, results, fields) => {
     if (error) {
       console.error('Errore nella query:', error);
@@ -33,7 +33,8 @@ app.get('/api/match', (req, res) => {
       console.log('API OK: ', results);
       res.json(results);
     }
-  });
+  });*/
+  res.json([{ID:1, partita: 'Inter-Atalanta', data:'28/02/2024'}]);
 });
 
 app.get('/api/tickets', (req, res) => {
