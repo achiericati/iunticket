@@ -17,7 +17,7 @@ app.get('*', (req, res) => {
   res.sendFile(join(__dirname, '../build', 'index.html'));
 });
 
-const PORT = 31491
+const PORT = process.env.PORT || 31491
 
 
 /*const connection = mysql.createConnection({
