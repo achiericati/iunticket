@@ -206,6 +206,8 @@ app.get('/api/tickets', (req, res) => {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
 
+  console.log("DIRNAME --> " + __dirname)
+
 app.use(express.static(path.join(__dirname, '../build')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../build', 'index.html'));
