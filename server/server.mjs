@@ -19,13 +19,15 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000
 
-
 const connection = mysql.createConnection({
   host: '9z6n6e.stackhero-network.com',
   user: 'root',
   port: 3306,
   password: '6z6P1Dadytt24aFQkxjvgljQW4G4Ydgm',
-  database: 'root'
+  database: 'root',
+  entities: [],
+  synchronize: true,
+  ssl: {}
 });
 connection.connect((err) => {
   if (err) {
