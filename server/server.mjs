@@ -6,8 +6,18 @@ import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const app = express();
+
+app.use(express.static(join(__dirname, '../build')));
+app.get('*', (req, res) => {
+  res.sendFile(join(__dirname, '../build', 'index.html'));
+});
+
 const PORT = 31491
+
 
 /*const connection = mysql.createConnection({
   host: 'wm0gxg.stackhero-network.com',
@@ -202,16 +212,6 @@ app.get('/api/tickets', (req, res) => {
         }
         });
   });
-
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
-
-  console.log("DIRNAME --> " + __dirname)
-
-app.use(express.static(path.join(__dirname, '../build')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build', 'index.html'));
-});
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
