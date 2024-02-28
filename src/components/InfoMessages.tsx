@@ -11,12 +11,13 @@ const InfoMessages = () => {
           <Box display="flex" alignItems={"center"} style={{marginBottom:"15px"}}>
             <SportsSoccerIcon fontSize="inherit" color="primary" style={{marginRight:"10px"}} />
             <Box>Stai cercando un biglietto per una partita dell'Inter? iUnTicket ti permette di visualizzare tutti i biglietti resi disponibili da altri utenti, scegliere 
-                  quello piu adatto a te e contattare direttamente il venditore!
+                  quello più adatto a te e contattare direttamente il venditore!
             </Box>
           </Box>
           <Box display="flex" alignItems={"center"}>
             <ConfirmationNumberIcon fontSize="inherit" color="primary" style={{marginRight:"10px"}} />
-            <Box>Devi cedere un biglietto per una partita dell'Inter? iUnTicket ti permette di inserire il tuo biglietto tra quelli disponibili cosi da farti contattare da chi è interessato!
+            <Box>Devi cedere un biglietto per una partita dell'Inter? iUnTicket ti permette di inserire il tuo biglietto tra quelli disponibili cosi da farti contattare da chi è interessato! 
+              Per inserire i tuoi biglietti sarà necessaria la registrazione.
             </Box>
           </Box>
         </Box>

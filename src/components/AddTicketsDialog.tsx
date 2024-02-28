@@ -198,7 +198,6 @@ const AddTicketsDialog = ({
 
       <FormControlLabel style={{marginTop:"30px"}} control={<Switch defaultChecked checked={necessariaTDT} onChange={(event) => setNecessariaTDT(event.target.checked)} />} label="Necessaria TDT" />
       </Box> : <Box style={{fontSize:"20px", fontWeight:"bold"}} marginTop={"25px"}>{'Effettua il login o registrati per inserire i tuoi biglietti.'}</Box>}
-    {/* nota sulla privacy TODO --> specifica che i dati non verranno usati in alcun modo --> chiedi a chatGPT di creare un testo adatto. */}
     </DialogContent>
 
     <DialogActions>

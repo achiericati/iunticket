@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import mysql from 'mysql2';
 
 const app = express();
-const PORT = 31491 // process.env.PORT no perchè sarebbe la stessa del client
+const PORT = 31491
 
 /*const connection = mysql.createConnection({
   host: 'wm0gxg.stackhero-network.com',
@@ -22,8 +22,9 @@ connection.connect((err) => {
 
 app.use(cors());
 app.use(bodyParser.json());
+app.options('*', cors());
 
-app.get('/api/match', (req, res) => {
+app.get('/', (req, res) => {
   /*const sql = `SELECT partita.ID, partita.partita, partita.data, COUNT(ticket.partitaID) AS bigliettiDisponibili, MIN(ticket.prezzo) AS prezzoMin FROM partita LEFT JOIN ticket ON partita.ID = ticket.partitaID GROUP BY partita.ID;`;
   connection.query(sql, (error, results, fields) => {
     if (error) {

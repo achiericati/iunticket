@@ -2,11 +2,15 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-import { Box, Button, DialogContentText, Snackbar, TextField } from '@mui/material'
+import { Box, Button, Checkbox, DialogContentText, Snackbar, TextField } from '@mui/material'
 import { useEffect, useState } from 'react'
 import UserInfoInputComponents from './UserInfoInputComponents'
 import axios from 'axios'
 import { User } from '../utils/interfaces'
+import Accordion from '@mui/material/Accordion'
+import AccordionSummary from '@mui/material/AccordionSummary'
+import AccordionDetails from '@mui/material/AccordionDetails'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 interface Props {
     openDialog: boolean;
@@ -31,6 +35,7 @@ const LoginRegisterUserDialog = ({
     const [email, setEmail] = useState<string>('');
     const [showError, setShowError] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string>("");
+    const [privacyAccepted, setPrivacyAccepted] = useState<boolean>(false);
 
     useEffect(() => {
       setUsername('')
@@ -59,11 +64,17 @@ const LoginRegisterUserDialog = ({
       else { // REGISTER
         if (username === '' || password === '') {
           setShowError(true)
+          setErrorMessage("Username o password non specificati.")
+          return
+        }
+        if (password.length < 8) {
+          setShowError(true)
+          setErrorMessage("La password deve contenere almeno 8 caratteri.")
           return
         }
         const nomeECognomeInseriti = nome !== '' && cognome !== ''
         if (instagram === '' && cellulare === ''  && email === ''  && !nomeECognomeInseriti) {
-          setErrorMessage("Errore nella compilazione. Ti ricordo che devi inserire username, passowrd e almeno un contatto.")
+          setErrorMessage("Errore nella compilazione. Ti ricordo che devi inserire almeno un contatto.")
           setShowError(true) 
           return
         }
@@ -115,7 +126,7 @@ const LoginRegisterUserDialog = ({
       >
         <DialogTitle>{view === 'LOGIN' ? 'Login' : 'Register'}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText style={{marginBottom:'10px'}}>
             {view === 'LOGIN' && 'Inserisci il tuo username e la tua password per effettuare il login.'}
             {view === 'REGISTER' && 'Inserisci i tuoi dati per effettuare la registrazione. Sarà necessario almeno un contatto tra Instagram, Facebook (nome e cognome), email o cellulare.'}
           </DialogContentText>
@@ -166,16 +177,40 @@ const LoginRegisterUserDialog = ({
             ></UserInfoInputComponents>
           </Box>}
 
-          {view === 'LOGIN' && <Box style={{marginTop:'10px'}} display={"flex"} alignItems="center">
-            <div>Se non hai ancora un account, per favore</div>
-            <Button style={{marginTop:'2px'}} onClick={() => setView('REGISTER')}>Registrati</Button>
-            <div>qui.</div>
+          {view === 'LOGIN' && 
+          <Box style={{marginTop:'35px'}}>
+            <Box>Se non hai ancora un account, per favore registrati qui.</Box>
+            <Button style={{marginTop:'2px', marginLeft:'-8px'}} onClick={() => setView('REGISTER')}>Registrati</Button>
           </Box>}
+
+          {view === 'REGISTER' &&
+          <Accordion style={{marginTop:'20px'}}>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1-content"
+              id="panel1-header"
+            > 
+              <Box display="flex" alignItems="center">
+                <Checkbox
+                  checked={privacyAccepted}
+                  onChange={() => setPrivacyAccepted(!privacyAccepted)}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                  style={{marginRight:'5px'}}
+                />
+                <Box>Accetto i termini legati alla privacy.</Box>
+              </Box>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Box> <span style={{ whiteSpace: 'pre-line' }}>
+                  {"Grazie per aver scelto di registrarti su iUnTicket. La tua privacy è estremamente importante per noi e desideriamo informarti su come trattiamo i tuoi dati personali. \n\n1. Raccolta dei Dati: durante la registrazione, raccogliamo informazioni come il tuo nome, cognome, indirizzo email, nome Instagram e numero di cellulare. Questi dati sono necessari per fornirti i nostri servizi e far si che tu possa essere contattato nel momento in cui registri dei biglietti sulla piattaforma.\n\n2. Utilizzo dei Dati: i tuoi dati personali verranno utilizzati esclusivamente per scopi correlati ai servizi offerti da iUnTicket. Ci impegniamo a non condividere le tue informazioni con terze parti senza il tuo consenso esplicito, tranne nei casi previsti dalla legge.\n\n3. Sicurezza dei Dati: adottiamo misure di sicurezza adeguate per proteggere i tuoi dati personali da accessi non autorizzati, modifiche o divulgazioni. Utilizziamo protocolli di crittografia e altre tecnologie per garantire la sicurezza dei tuoi dati.\n\n4. Accesso e Modifica dei Dati: hai il diritto di accedere alle informazioni personali che abbiamo su di te e di richiederne la modifica o la cancellazione, se necessario. Per esercitare questi diritti o per qualsiasi altra domanda sulla privacy, ti preghiamo di contattarci tramite andreachiericati93@gmail.com.\n\n5. Cookie e Tracciamento: utilizziamo i cookie e altre tecnologie di tracciamento per migliorare l'esperienza degli utenti sul nostro sito. Puoi gestire le tue preferenze sui cookie attraverso le impostazioni del tuo browser.\n\nContinuando a utilizzare iUnTicket, accetti i nostri Termini di Servizio e la presente Informativa sulla Privacy. Ti preghiamo di leggerli attentamente.\nGrazie per la fiducia e la comprensione. Se hai domande o dubbi sulla nostra politica sulla privacy, non esitare a contattarci.\n\nCordiali saluti,\n\nteam di iUnTicket"}</span>
+              </Box>
+            </AccordionDetails>
+          </Accordion>}
          
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={loginOrRegister} type="submit">{view === 'LOGIN' ? 'Login' : 'Register'}</Button>
+          <Button onClick={loginOrRegister} disabled={!privacyAccepted} type="submit">{view === 'LOGIN' ? 'Login' : 'Register'}</Button>
         </DialogActions>
       </Dialog>
       <Snackbar
