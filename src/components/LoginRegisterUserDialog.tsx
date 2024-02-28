@@ -210,7 +210,7 @@ const LoginRegisterUserDialog = ({
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={loginOrRegister} disabled={!privacyAccepted} type="submit">{view === 'LOGIN' ? 'Login' : 'Register'}</Button>
+          <Button onClick={loginOrRegister} disabled={view === 'REGISTER' && !privacyAccepted} type="submit">{view === 'LOGIN' ? 'Login' : 'Register'}</Button>
         </DialogActions>
       </Dialog>
       <Snackbar
