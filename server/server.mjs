@@ -20,10 +20,10 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 5000
 
 
-/*const connection = mysql.createConnection({
-  host: 'wm0gxg.stackhero-network.com',
+const connection = mysql.createConnection({
+  host: '9z6n6e.stackhero-network.com',
   user: 'root',
-  password: 'Q9jYXi1hw3CXBOYWXgXwtK4IEYHjWCWK',
+  password: '6z6P1Dadytt24aFQkxjvgljQW4G4Ydgm',
   database: 'root'
 });
 connection.connect((err) => {
@@ -32,7 +32,7 @@ connection.connect((err) => {
   } else {
     console.log('Connessione al database MySQL riuscita!');
   }
-});*/
+});
 
 const allowedOrigins = ['https://iunticket-fdba432ee24a.herokuapp.com'];
 const corsOptions = {
@@ -48,7 +48,7 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.get('/api/match', (req, res) => {
-  /*const sql = `SELECT partita.ID, partita.partita, partita.data, COUNT(ticket.partitaID) AS bigliettiDisponibili, MIN(ticket.prezzo) AS prezzoMin FROM partita LEFT JOIN ticket ON partita.ID = ticket.partitaID GROUP BY partita.ID;`;
+  const sql = `SELECT partita.ID, partita.partita, partita.data, COUNT(ticket.partitaID) AS bigliettiDisponibili, MIN(ticket.prezzo) AS prezzoMin FROM partita LEFT JOIN ticket ON partita.ID = ticket.partitaID GROUP BY partita.ID;`;
   connection.query(sql, (error, results, fields) => {
     if (error) {
       console.error('Errore nella query:', error);
@@ -57,8 +57,7 @@ app.get('/api/match', (req, res) => {
       console.log('API OK: ', results);
       res.json(results);
     }
-  });*/
-  res.json([{ID:1, partita: 'Inter-Atalanta', data:'28/02/2024'}]);
+  });
 });
 
 app.get('/api/tickets', (req, res) => {
