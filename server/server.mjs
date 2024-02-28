@@ -20,9 +20,18 @@ connection.connect((err) => {
   }
 });*/
 
-app.use(cors());
+const allowedOrigins = ['https://iunticket-fdba432ee24a.herokuapp.com']; // Modifica questo con il tuo dominio del client React su Heroku
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
-app.options('*', cors());
 
 app.get('/api/match', (req, res) => {
   /*const sql = `SELECT partita.ID, partita.partita, partita.data, COUNT(ticket.partitaID) AS bigliettiDisponibili, MIN(ticket.prezzo) AS prezzoMin FROM partita LEFT JOIN ticket ON partita.ID = ticket.partitaID GROUP BY partita.ID;`;
