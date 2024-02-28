@@ -10,7 +10,7 @@ export interface User {
   }
 
   export interface Ticket {
-    id: number;
+    ID: number;
     user: string;
     anello: string;
     settore: string;

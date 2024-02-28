@@ -64,7 +64,7 @@ const EditUserDataDialog = ({
           cellulare: cellulare,
           email: email,
         }
-        const response = await axios.post('http://localhost:3001/api/editUser', body);
+        const response = await axios.post('https://iunticket-fdba432ee24a.herokuapp.com/api/editUser', body);
         setLoggedUser(response.data[0])
         if (response.data && response.data.length > 0) setLoggedUser(response.data[0])
         setOpenDialog(false)
@@ -122,7 +122,6 @@ const EditUserDataDialog = ({
           message={errorMessage}
         />
     </Box>
-      /* nota sulla privacy TODO --> specifica che i dati non verranno usati in alcun modo --> chiedi a chatGPT di creare un testo adatto. */
   );
 };
 

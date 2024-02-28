@@ -51,7 +51,7 @@ const AddTicketsDialog = ({
           necessariaTdt: necessariaTDT,
           prezzo: prezzo
         }
-        const response = await axios.post('http://localhost:3001/api/tickets', body);
+        const response = await axios.post('https://iunticket-fdba432ee24a.herokuapp.com/api/tickets', body);
         const newTickets = [...tickets]
         if (response && response.data && response.data.length > 0) newTickets.push(response.data[0])
         setTickets(newTickets)
@@ -198,7 +198,6 @@ const AddTicketsDialog = ({
 
       <FormControlLabel style={{marginTop:"30px"}} control={<Switch defaultChecked checked={necessariaTDT} onChange={(event) => setNecessariaTDT(event.target.checked)} />} label="Necessaria TDT" />
       </Box> : <Box style={{fontSize:"20px", fontWeight:"bold"}} marginTop={"25px"}>{'Effettua il login o registrati per inserire i tuoi biglietti.'}</Box>}
-    {/* nota sulla privacy TODO --> specifica che i dati non verranno usati in alcun modo --> chiedi a chatGPT di creare un testo adatto. */}
     </DialogContent>
 
     <DialogActions>

@@ -69,7 +69,7 @@ const TicketsTable = ({
   
     const handleShowInfoUtente = async (userName: string) => {
       try {
-        const response = await axios.get('http://localhost:3001/api/infoUser?userName='+userName);
+        const response = await axios.get('https://iunticket-fdba432ee24a.herokuapp.com/api/infoUser?userName='+userName);
         if (response.data && response.data.length > 0) setInfoUtente(response.data[0]);
         setInfoUtenteDialogOpened(true);
       } catch (error) {
@@ -124,7 +124,7 @@ const TicketsTable = ({
        <TableBody>
          {filteredTickets.map((ticket) => (
            <TableRow
-             key={ticket.id}
+             key={ticket.ID}
              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
            >
              <TableCell>{ticket.user}</TableCell>
@@ -136,7 +136,7 @@ const TicketsTable = ({
              <TableCell align="center">{ticket.prezzo ? ticket.prezzo + '€' : ''}</TableCell>
              <TableCell align="center">
               {loggedUser?.username === ticket.user ? 
-              <IconButton onClick={() => handleDeleteTicket(ticket.id)} color="primary" aria-label="Delete"><DeleteIcon/></IconButton> 
+              <IconButton onClick={() => handleDeleteTicket(ticket.ID)} color="primary" aria-label="Delete"><DeleteIcon/></IconButton> 
               : 
              <IconButton onClick={() => handleShowInfoUtente(ticket.user)} color="primary" aria-label="Delete"><PermIdentityIcon/></IconButton>}
              </TableCell>

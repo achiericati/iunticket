@@ -2,15 +2,32 @@ import express from 'express';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import mysql from 'mysql2';
+import path from 'path';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
-const PORT = 3001;
+
+app.use(express.static(join(__dirname, '../build')));
+app.get('/', (req, res) => {
+  console.log("ENTRA QUI")
+  res.sendFile(join(__dirname, '../build', 'index.html'));
+});
+
+const PORT = process.env.PORT || 5000
 
 const connection = mysql.createConnection({
-  host: '127.0.0.1', // TODO
-  user: 'root', // TODO
-  password: 'la_tua_password_mysql', // TODO
-  database: 'iUnTicket',
+  host: '9z6n6e.stackhero-network.com',
+  user: 'root',
+  port: 3306,
+  password: '6z6P1Dadytt24aFQkxjvgljQW4G4Ydgm',
+  database: 'root',
+  entities: [],
+  synchronize: true,
+  ssl: {}
 });
 connection.connect((err) => {
   if (err) {
@@ -20,16 +37,27 @@ connection.connect((err) => {
   }
 });
 
-app.use(cors());
+const allowedOrigins = ['https://iunticket-fdba432ee24a.herokuapp.com'];
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.get('/api/match', (req, res) => {
-  const sql = `SELECT iUnTicket.partita.ID, iUnTicket.partita.partita, iUnTicket.partita.data, COUNT(iUnTicket.ticket.partitaID) AS bigliettiDisponibili, MIN(iUnTicket.ticket.prezzo) AS prezzoMin FROM iUnTicket.partita LEFT JOIN iUnTicket.ticket ON iUnTicket.partita.ID = iUnTicket.ticket.partitaID GROUP BY iUnTicket.partita.ID;`;
+  const sql = `SELECT partita.ID, partita.partita, partita.data, COUNT(ticket.partitaID) AS bigliettiDisponibili, MIN(ticket.prezzo) AS prezzoMin FROM partita LEFT JOIN ticket ON partita.ID = ticket.partitaID GROUP BY partita.ID;`;
   connection.query(sql, (error, results, fields) => {
     if (error) {
       console.error('Errore nella query:', error);
       res.status(500).send('Errore nel server.');
     } else {
+      console.log('API OK: ', results);
       res.json(results);
     }
   });
@@ -37,7 +65,7 @@ app.get('/api/match', (req, res) => {
 
 app.get('/api/tickets', (req, res) => {
   const partitaID = req.query.matchID;
-  const sql = 'SELECT * FROM iUnTicket.ticket WHERE partitaID = ?';
+  const sql = 'SELECT * FROM ticket WHERE partitaID = ?';
   connection.query(sql, [partitaID], (error, results, fields) => {
     if (error) {
       console.error('Errore nella query:', error);
@@ -50,7 +78,7 @@ app.get('/api/tickets', (req, res) => {
 
   app.get('/api/infoUser', (req, res) => {
     const userName = req.query.userName;
-    const sql = 'SELECT * FROM iUnTicket.user WHERE username = ?';
+    const sql = 'SELECT * FROM user WHERE username = ?';
     connection.query(sql, [userName], (error, results, fields) => {
     if (error) {
       console.error('Errore nella query:', error);
@@ -64,7 +92,7 @@ app.get('/api/tickets', (req, res) => {
   app.get('/api/login', (req, res) => {
     const userName = req.query.userName;
     const pwd = req.query.password;
-    const sql = 'SELECT * FROM iUnTicket.user WHERE username = ? and password = ?';
+    const sql = 'SELECT * FROM user WHERE username = ? and password = ?';
     connection.query(sql, [userName, pwd], (error, results, fields) => {
     if (error) {
       console.error('Errore nella query:', error);
@@ -78,7 +106,7 @@ app.get('/api/tickets', (req, res) => {
 
   app.post('/api/register', (req, res) => {
     const userName = req.body.userName;
-    const sql = 'SELECT * FROM iUnTicket.user WHERE username = ?';
+    const sql = 'SELECT * FROM user WHERE username = ?';
     connection.query(sql, [userName], (error, results, fields) => {
     if (error) {
       res.status(500).send('Errore nel server.');
@@ -96,13 +124,13 @@ app.get('/api/tickets', (req, res) => {
         const email = req.body.email || ''
         const created = req.body.created;
 
-        const sql = 'INSERT INTO iUnTicket.user (username, nome, cognome, mail, instagram, cellulare, password, created_date) VALUES (?,?,?,?,?,?,?,?)';
+        const sql = 'INSERT INTO user (username, nome, cognome, mail, instagram, cellulare, password, created_date) VALUES (?,?,?,?,?,?,?,?)';
         connection.query(sql, [userName, nome, cognome, email, instagram, cellulare, pwd, created], (error, results) => {
         if (error) {
           console.log(error)
           res.status(500).send('Errore nel server.');
         } else {
-          const sql = 'SELECT * FROM iUnTicket.user WHERE username = ?';
+          const sql = 'SELECT * FROM user WHERE username = ?';
           connection.query(sql, [userName], (error, results, fields) => {
           if (error) {
             console.error('Errore nella query:', error);
@@ -128,13 +156,13 @@ app.get('/api/tickets', (req, res) => {
     const cellulare = req.body.cellulare || ''
     const email = req.body.email || ''
 
-    const sql = 'UPDATE iUnTicket.user set password = ?, nome = ?, cognome = ?, mail = ?, instagram = ?, cellulare = ? WHERE username = ?';
+    const sql = 'UPDATE user set password = ?, nome = ?, cognome = ?, mail = ?, instagram = ?, cellulare = ? WHERE username = ?';
     connection.query(sql, [pwd, nome, cognome, email, instagram, cellulare, userName], (error, results) => {
     if (error) {
       console.log(error)
       res.status(500).send('Errore nel server.');
     } else {
-      const sql = 'SELECT * FROM iUnTicket.user WHERE username = ?';
+      const sql = 'SELECT * FROM user WHERE username = ?';
       connection.query(sql, [userName], (error, results, fields) => {
       if (error) {
         console.error('Errore nella query:', error);
@@ -157,13 +185,13 @@ app.get('/api/tickets', (req, res) => {
     const necessariaTdt = req.body.necessariaTdt
     const prezzo = req.body.prezzo || null
 
-    const sql = 'INSERT INTO iUnTicket.ticket (partitaID, user, anello, settore, fila, posti, necessariaTdt, prezzo) VALUES (?,?,?,?,?,?,?,?)';
+    const sql = 'INSERT INTO ticket (partitaID, user, anello, settore, fila, posti, necessariaTdt, prezzo) VALUES (?,?,?,?,?,?,?,?)';
         connection.query(sql, [partitaID, userName, anello, settore, fila, posti, necessariaTdt, prezzo], (error, results) => {
         if (error) {
           console.log(error)
           res.status(500).send('Errore nel server.');
         } else {
-          const sql = 'SELECT * FROM iUnTicket.ticket WHERE id = LAST_INSERT_ID()';
+          const sql = 'SELECT * FROM ticket WHERE id = LAST_INSERT_ID()';
           connection.query(sql, [], (error, results, fields) => {
           if (error) {
             res.status(500).send('Errore nel server.');
@@ -177,7 +205,7 @@ app.get('/api/tickets', (req, res) => {
 
   app.post('/api/deleteTickets', (req, res) => {
     const ticketID = req.body.ticketID;
-    const sql = 'DELETE FROM iUnTicket.ticket WHERE id = ?';
+    const sql = 'DELETE FROM ticket WHERE id = ?';
         connection.query(sql, [ticketID], (error, results) => {
         if (error) {
           console.log(error)
@@ -188,7 +216,6 @@ app.get('/api/tickets', (req, res) => {
         });
   });
 
-  
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
