@@ -13,7 +13,7 @@ const app = express();
 
 app.use(express.static(join(__dirname, '../build')));
 app.get('*', (req, res) => {
-  console.log("DIO PORCOOOOOO")
+  console.log("ENTRA QUI")
   res.sendFile(join(__dirname, '../build', 'index.html'));
 });
 
