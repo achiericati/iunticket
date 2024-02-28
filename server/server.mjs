@@ -20,7 +20,7 @@ connection.connect((err) => {
   }
 });*/
 
-const allowedOrigins = ['https://iunticket-fdba432ee24a.herokuapp.com']; // Modifica questo con il tuo dominio del client React su Heroku
+const allowedOrigins = ['https://iunticket-fdba432ee24a.herokuapp.com'];
 const corsOptions = {
   origin: function (origin, callback) {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
@@ -199,6 +199,11 @@ app.get('/api/tickets', (req, res) => {
         }
         });
   });
+
+app.use(express.static(path.join(__dirname, '../build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
