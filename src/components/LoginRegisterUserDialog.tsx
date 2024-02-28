@@ -220,7 +220,6 @@ const LoginRegisterUserDialog = ({
           message={errorMessage}
         />
     </Box>
-      /* nota sulla privacy TODO --> specifica che i dati non verranno usati in alcun modo --> chiedi a chatGPT di creare un testo adatto. */
   );
 };
 
