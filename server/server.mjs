@@ -12,12 +12,12 @@ const __dirname = dirname(__filename);
 const app = express();
 
 app.use(express.static(join(__dirname, '../build')));
-app.get('*', (req, res) => {
+app.get('/', (req, res) => {
   console.log("ENTRA QUI")
   res.sendFile(join(__dirname, '../build', 'index.html'));
 });
 
-const PORT = process.env.PORT || 31491
+const PORT = process.env.PORT || 5000
 
 
 /*const connection = mysql.createConnection({
