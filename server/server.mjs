@@ -24,6 +24,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.options('*', cors());
 
+app.get("*", (req, res) => {
+  res.sendFile(
+    path.resolve(__dirname, "../", "build", "index.html")
+  );
+});
+
 app.get('/api/match', (req, res) => {
   /*const sql = `SELECT partita.ID, partita.partita, partita.data, COUNT(ticket.partitaID) AS bigliettiDisponibili, MIN(ticket.prezzo) AS prezzoMin FROM partita LEFT JOIN ticket ON partita.ID = ticket.partitaID GROUP BY partita.ID;`;
   connection.query(sql, (error, results, fields) => {
