@@ -31,6 +31,7 @@ connection.connect((err) => {
   if (err) {
     console.error('Errore durante la connessione al database:', err);
   } else {
+    setInterval(() => connection.ping(), 120 * 1000);
     console.log('Connessione al database MySQL riuscita!');
   }
 });
@@ -58,11 +59,9 @@ app.get('/api/match', (req, res) => {
       res.json(results);
     }
   });
-  connection.release()
 });
 
 app.get('/api/tickets', (req, res) => {
-  
   const partitaID = req.query.matchID;
   const sql = 'SELECT * FROM ticket WHERE partitaID = ?';
   connection.query(sql, [partitaID], (error, results, fields) => {
@@ -76,7 +75,6 @@ app.get('/api/tickets', (req, res) => {
 });
 
   app.get('/api/infoUser', (req, res) => {
-    
     const userName = req.query.userName;
     const sql = 'SELECT * FROM user WHERE username = ?';
     connection.query(sql, [userName], (error, results, fields) => {
@@ -90,7 +88,6 @@ app.get('/api/tickets', (req, res) => {
   });
 
   app.get('/api/login', (req, res) => {
-    
     const userName = req.query.userName;
     const pwd = req.query.password;
     const sql = 'SELECT * FROM user WHERE username = ? and password = ?';
@@ -106,7 +103,6 @@ app.get('/api/tickets', (req, res) => {
   });
 
   app.post('/api/register', (req, res) => {
-    
     const userName = req.body.userName;
     const sql = 'SELECT * FROM user WHERE username = ?';
     connection.query(sql, [userName], (error, results, fields) => {
@@ -150,7 +146,6 @@ app.get('/api/tickets', (req, res) => {
   });
 
   app.post('/api/editUser', (req, res) => {
-    
     const userName = req.body.userName;
     const pwd = req.body.password;
     const nome = req.body.nome || ''
@@ -179,7 +174,6 @@ app.get('/api/tickets', (req, res) => {
   });
 
   app.post('/api/tickets', (req, res) => {
-    
     const userName = req.body.userName;
     const partitaID = req.body.partitaID;
     const anello = req.body.anello;
@@ -208,7 +202,6 @@ app.get('/api/tickets', (req, res) => {
   });
 
   app.post('/api/deleteTickets', (req, res) => {
-    
     const ticketID = req.body.ticketID;
     const sql = 'DELETE FROM ticket WHERE id = ?';
         connection.query(sql, [ticketID], (error, results) => {
