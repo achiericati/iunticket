@@ -49,7 +49,6 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.get('/api/match', (req, res) => {
-  connection.connect()
   const sql = `SELECT partita.ID, partita.partita, partita.data, COUNT(ticket.partitaID) AS bigliettiDisponibili, MIN(ticket.prezzo) AS prezzoMin FROM partita LEFT JOIN ticket ON partita.ID = ticket.partitaID GROUP BY partita.ID;`;
   connection.query(sql, (error, results, fields) => {
     if (error) {
@@ -59,10 +58,11 @@ app.get('/api/match', (req, res) => {
       res.json(results);
     }
   });
+  connection.release()
 });
 
 app.get('/api/tickets', (req, res) => {
-  connection.connect()
+  
   const partitaID = req.query.matchID;
   const sql = 'SELECT * FROM ticket WHERE partitaID = ?';
   connection.query(sql, [partitaID], (error, results, fields) => {
@@ -76,7 +76,7 @@ app.get('/api/tickets', (req, res) => {
 });
 
   app.get('/api/infoUser', (req, res) => {
-    connection.connect()
+    
     const userName = req.query.userName;
     const sql = 'SELECT * FROM user WHERE username = ?';
     connection.query(sql, [userName], (error, results, fields) => {
@@ -90,7 +90,7 @@ app.get('/api/tickets', (req, res) => {
   });
 
   app.get('/api/login', (req, res) => {
-    connection.connect()
+    
     const userName = req.query.userName;
     const pwd = req.query.password;
     const sql = 'SELECT * FROM user WHERE username = ? and password = ?';
@@ -106,7 +106,7 @@ app.get('/api/tickets', (req, res) => {
   });
 
   app.post('/api/register', (req, res) => {
-    connection.connect()
+    
     const userName = req.body.userName;
     const sql = 'SELECT * FROM user WHERE username = ?';
     connection.query(sql, [userName], (error, results, fields) => {
@@ -150,7 +150,7 @@ app.get('/api/tickets', (req, res) => {
   });
 
   app.post('/api/editUser', (req, res) => {
-    connection.connect()
+    
     const userName = req.body.userName;
     const pwd = req.body.password;
     const nome = req.body.nome || ''
@@ -179,7 +179,7 @@ app.get('/api/tickets', (req, res) => {
   });
 
   app.post('/api/tickets', (req, res) => {
-    connection.connect()
+    
     const userName = req.body.userName;
     const partitaID = req.body.partitaID;
     const anello = req.body.anello;
@@ -208,7 +208,7 @@ app.get('/api/tickets', (req, res) => {
   });
 
   app.post('/api/deleteTickets', (req, res) => {
-    connection.connect()
+    
     const ticketID = req.body.ticketID;
     const sql = 'DELETE FROM ticket WHERE id = ?';
         connection.query(sql, [ticketID], (error, results) => {
