@@ -30,11 +30,11 @@ const MatchesTable = ({
     <Table aria-label="simple table">
       <TableHead>
         <TableRow>
+          <TableCell style={{fontWeight:"bold"}} align="center">Biglietti</TableCell>
           <TableCell style={{fontWeight:"bold"}} >Partita</TableCell>
           <TableCell style={{fontWeight:"bold"}} align="center">Data</TableCell>
           <TableCell style={{fontWeight:"bold"}} align="center">Biglietti disponibili</TableCell>
           <TableCell style={{fontWeight:"bold"}} align="center">A partire da</TableCell>
-          <TableCell style={{fontWeight:"bold"}} align="center">Vai ai biglietti</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -43,12 +43,12 @@ const MatchesTable = ({
               key={match.ID}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
+               <TableCell align="center"><IconButton onClick={() => handleShowTickets(match.ID)} color="primary" aria-label="Delete">
+              <ConfirmationNumberIcon /></IconButton></TableCell>
               <TableCell>{match.partita}</TableCell>
               <TableCell align="center">{match.data}</TableCell>
               <TableCell align="center">{match.bigliettiDisponibili}</TableCell>
               <TableCell align="center">{match.prezzoMin ? match.prezzoMin + '€' : ''}</TableCell>
-              <TableCell align="center"><IconButton onClick={() => handleShowTickets(match.ID)} color="primary" aria-label="Delete">
-              <ConfirmationNumberIcon /></IconButton></TableCell>
             </TableRow>
           ))}
       </TableBody>
