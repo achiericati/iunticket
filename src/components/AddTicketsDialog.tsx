@@ -35,6 +35,7 @@ const AddTicketsDialog = ({
     const [necessariaTDT, setNecessariaTDT] = useState<boolean>(false);
     const [errorFila, setErrorFila] = useState<boolean>(true);
     const [errorPosti, setErrorPosti] = useState<boolean>(true);
+    const [errorSettore, setErrorSettore] = useState<boolean>(true);
 
     const handleClose = () => {
       setOpen(false);
@@ -70,6 +71,12 @@ const AddTicketsDialog = ({
 
     const handleChangeColore = (event: any) => {
       setColore(event.target.value);
+    }
+
+    const handleChangeSettore = (settore: string) => {
+      setSettore(settore)
+      if (settore === '') setErrorSettore(true)
+      else setErrorSettore(false)
     }
 
     const handleChangeFila = (fila: string) => {
@@ -144,10 +151,11 @@ const AddTicketsDialog = ({
               autoFocus
               margin="dense"
               id="settore"
+              error={errorSettore}
               name="settore"
               label={"Settore*"}
               value={settore}
-              onChange={(event) => setSettore(event.target.value)}
+              onChange={(event) => handleChangeSettore(event.target.value)}
               type="text"
               variant="standard"
             />
@@ -161,6 +169,7 @@ const AddTicketsDialog = ({
               label={"Fila*"}
               value={fila}
               onChange={(event) => handleChangeFila(event.target.value)}
+              
               type="text"
               variant="standard"
             />
@@ -200,7 +209,7 @@ const AddTicketsDialog = ({
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
-        <Button disabled={loggedUser === null || errorFila || errorPosti} onClick={handleAddNewTickets} type="submit">Aggiungi</Button>
+        <Button disabled={loggedUser === null || errorFila || errorPosti || errorSettore} onClick={handleAddNewTickets} type="submit">Aggiungi</Button>
       </DialogActions>
     </Dialog>
   );
