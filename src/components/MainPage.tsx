@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Box, IconButton, Paper } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { Match, Ticket, MAIN_COLOR, User } from '../utils/interfaces'
+import { Match, Ticket, MAIN_COLOR, User, DEBUG } from '../utils/interfaces'
 import TopBar from './TopBar'
 import InfoMessages from './InfoMessages'
 import MatchesTable from './MatchesTable'
@@ -26,8 +26,9 @@ const MainPage: React.FC = () => {
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        //const response = await axios.get('https://iunticket-fdba432ee24a.herokuapp.com/api/match');
-        const response = await axios.get('http://localhost:31491/api/match'); // DEV
+        let response = null
+        if (!DEBUG) response = await axios.get('https://iunticket-fdba432ee24a.herokuapp.com/api/match');
+        else response = await axios.get('http://localhost:31491/api/match');
         setMatches(response.data);
       } catch (error) {
         console.error('Errore nel recupero delle partite:', error);
@@ -39,8 +40,9 @@ const MainPage: React.FC = () => {
 
   const handleShowTickets = async (matchID: number) => {
     try {
-      //const response = await axios.get('https://iunticket-fdba432ee24a.herokuapp.com/api/tickets?matchID='+matchID);
-      const response = await axios.get('http://localhost:31491/api/tickets?matchID='+matchID); // DEV
+      let response = null
+      if (!DEBUG) response = await axios.get('https://iunticket-fdba432ee24a.herokuapp.com/api/tickets?matchID='+matchID);
+      else response = await axios.get('http://localhost:31491/api/tickets?matchID='+matchID);
       setTickets(response.data);
       const currMatch = matches.filter(el=>el.ID === matchID)
       if (currMatch.length > 0) setCurrentMatch(currMatch[0])
