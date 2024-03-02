@@ -115,7 +115,7 @@ const TicketsTable = ({
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>
-              <TableCell style={{ fontWeight: "bold" }} align="center">Azioni</TableCell>
+              <TableCell style={{ fontWeight: "bold" }} align="center"></TableCell>
                 <TableCell style={{ fontWeight: "bold" }}>Utente</TableCell>
                 <TableCell style={{ fontWeight: "bold" }} align="center">Anello</TableCell>
                 <TableCell style={{ fontWeight: "bold" }} align="center">Colore</TableCell>
