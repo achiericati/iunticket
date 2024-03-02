@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
   res.sendFile(join(__dirname, '../build', 'index.html'));
 });
 
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 31491
 
 const connection = mysql.createConnection({
   host: '9z6n6e.stackhero-network.com',
@@ -36,7 +36,7 @@ connection.connect((err) => {
   }
 });
 
-const allowedOrigins = ['https://iunticket-fdba432ee24a.herokuapp.com'];
+const allowedOrigins = ['https://iunticket-fdba432ee24a.herokuapp.com', 'http://localhost:3000'];
 const corsOptions = {
   origin: function (origin, callback) {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
@@ -177,14 +177,15 @@ app.get('/api/tickets', (req, res) => {
     const userName = req.body.userName;
     const partitaID = req.body.partitaID;
     const anello = req.body.anello;
+    const colore = req.body.colore;
     const settore = req.body.settore;
     const fila = req.body.fila;
     const posti = req.body.posti
     const necessariaTdt = req.body.necessariaTdt
     const prezzo = req.body.prezzo || null
 
-    const sql = 'INSERT INTO ticket (partitaID, user, anello, settore, fila, posti, necessariaTdt, prezzo) VALUES (?,?,?,?,?,?,?,?)';
-        connection.query(sql, [partitaID, userName, anello, settore, fila, posti, necessariaTdt, prezzo], (error, results) => {
+    const sql = 'INSERT INTO ticket (partitaID, user, anello, colore, settore, fila, posti, necessariaTdt, prezzo) VALUES (?,?,?,?,?,?,?,?,?)';
+        connection.query(sql, [partitaID, userName, anello, colore, settore, fila, posti, necessariaTdt, prezzo], (error, results) => {
         if (error) {
           console.log(error)
           res.status(500).send('Errore nel server.');

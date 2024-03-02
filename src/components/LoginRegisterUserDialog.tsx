@@ -6,7 +6,7 @@ import { Box, Button, Checkbox, DialogContentText, Snackbar, TextField } from '@
 import { useEffect, useState } from 'react'
 import UserInfoInputComponents from './UserInfoInputComponents'
 import axios from 'axios'
-import { User } from '../utils/interfaces'
+import { DEBUG, User } from '../utils/interfaces'
 import Accordion from '@mui/material/Accordion'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
@@ -50,7 +50,9 @@ const LoginRegisterUserDialog = ({
     const loginOrRegister = async () => {
       if (view === 'LOGIN') {
         try {
-          const response = await axios.get('https://iunticket-fdba432ee24a.herokuapp.com/api/login?userName='+username+'&password='+password);
+          let response = null
+          if (!DEBUG) response = await axios.get('https://iunticket-fdba432ee24a.herokuapp.com/api/login?userName='+username+'&password='+password);
+          else response = await axios.get('http://localhost:31491/api/login?userName='+username+'&password='+password);
           if (response.data && response.data.length > 0) setLoggedUser(response.data[0])
           setMainView('LOGGED')
           setLoggedUser(response.data[0])
@@ -93,8 +95,9 @@ const LoginRegisterUserDialog = ({
             email: email,
             created: created
           }
-          const response = await axios.post('https://iunticket-fdba432ee24a.herokuapp.com/api/register', body);
-
+          let response = null
+          if (!DEBUG) response = await axios.post('https://iunticket-fdba432ee24a.herokuapp.com/api/register', body);
+          else response = await axios.post('http://localhost:31491/api/register', body);
           if (response.data && response.data.length > 0) setLoggedUser(response.data[0])
           setMainView('LOGGED')
           setOpenDialog(false)

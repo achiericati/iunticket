@@ -6,7 +6,7 @@ import { Box, Button, DialogContentText, Snackbar } from '@mui/material'
 import { useEffect, useState } from 'react'
 import UserInfoInputComponents from './UserInfoInputComponents'
 import axios from 'axios'
-import { User } from '../utils/interfaces'
+import { DEBUG, User } from '../utils/interfaces'
 
 interface Props {
     openDialog: boolean;
@@ -64,7 +64,9 @@ const EditUserDataDialog = ({
           cellulare: cellulare,
           email: email,
         }
-        const response = await axios.post('https://iunticket-fdba432ee24a.herokuapp.com/api/editUser', body);
+        let response = null
+        if (!DEBUG) response = await axios.post('https://iunticket-fdba432ee24a.herokuapp.com/api/editUser', body);
+        else response = await axios.post('http://localhost:31491/api/editUser', body);
         setLoggedUser(response.data[0])
         if (response.data && response.data.length > 0) setLoggedUser(response.data[0])
         setOpenDialog(false)
