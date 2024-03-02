@@ -115,6 +115,7 @@ const TicketsTable = ({
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>
+              <TableCell style={{ fontWeight: "bold" }} align="center">Azioni</TableCell>
                 <TableCell style={{ fontWeight: "bold" }}>Utente</TableCell>
                 <TableCell style={{ fontWeight: "bold" }} align="center">Anello</TableCell>
                 <TableCell style={{ fontWeight: "bold" }} align="center">Colore</TableCell>
@@ -123,7 +124,6 @@ const TicketsTable = ({
                 <TableCell style={{ fontWeight: "bold" }} align="center">Posti</TableCell>
                 <TableCell style={{ fontWeight: "bold" }} align="center">Necessaria tdt</TableCell>
                 <TableCell style={{ fontWeight: "bold" }} align="center">Prezzo</TableCell>
-                <TableCell style={{ fontWeight: "bold" }} align="center">Azioni</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -132,6 +132,12 @@ const TicketsTable = ({
                   key={ticket.ID}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
+                  <TableCell align="center">
+                    {loggedUser?.username === ticket.user ?
+                      <IconButton onClick={() => handleDeleteTicket(ticket.ID)} color="primary" aria-label="Delete"><DeleteIcon /></IconButton>
+                      :
+                      <IconButton onClick={() => handleShowInfoUtente(ticket.user)} color="primary" aria-label="Delete"><PermIdentityIcon /></IconButton>}
+                  </TableCell>
                   <TableCell>{ticket.user}</TableCell>
                   <TableCell align="center">{ticket.anello}</TableCell>
                   <TableCell align="center">{ticket.colore}</TableCell>
@@ -140,12 +146,6 @@ const TicketsTable = ({
                   <TableCell align="center">{ticket.posti.toString()}</TableCell>
                   <TableCell align="center">{ticket.necessariaTdt ? "SI" : "NO"}</TableCell>
                   <TableCell align="center">{ticket.prezzo ? ticket.prezzo + '€' : ''}</TableCell>
-                  <TableCell align="center">
-                    {loggedUser?.username === ticket.user ?
-                      <IconButton onClick={() => handleDeleteTicket(ticket.ID)} color="primary" aria-label="Delete"><DeleteIcon /></IconButton>
-                      :
-                      <IconButton onClick={() => handleShowInfoUtente(ticket.user)} color="primary" aria-label="Delete"><PermIdentityIcon /></IconButton>}
-                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
