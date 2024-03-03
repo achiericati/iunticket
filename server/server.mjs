@@ -4,12 +4,13 @@ import bodyParser from 'body-parser';
 import mysql from 'mysql2';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import forceSsl  from 'force-ssl-heroku';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
-
+app.use(forceSsl);
 app.use(express.static(join(__dirname, '../build')));
 app.get('/', (req, res) => {
   res.sendFile(join(__dirname, '../build', 'index.html'));
@@ -36,7 +37,8 @@ connection.connect((err) => {
   }
 });
 
-const allowedOrigins = ['https://iunticket-fdba432ee24a.herokuapp.com', 'http://localhost:3000'];
+const allowedOrigins = ['https://iunticket-fdba432ee24a.herokuapp.com', 
+'http://localhost:3000', 'https://www.iunticket.it', 'https://iunticket.it', ];
 const corsOptions = {
   origin: function (origin, callback) {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
