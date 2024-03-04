@@ -56,7 +56,6 @@ const MainPage: React.FC = () => {
     <Box>
       <TopBar loggedUser={loggedUser} setLoggedUser={setLoggedUser}/>
       <Paper style={{padding:"15px"}}>
-        {mainView === 'MATCHES' && <InfoMessages/>}
         {mainView === 'TICKETS' && 
         <Box fontWeight="bold" style={{color:MAIN_COLOR}} display="flex" alignItems="center" marginBottom="20px">
           <IconButton onClick={() => {setMainView('MATCHES'); setCurrentMatch(undefined)}} style={{marginTop:"10px", color:MAIN_COLOR}} aria-label="Back">
@@ -79,6 +78,7 @@ const MainPage: React.FC = () => {
          :
          <TicketsTable tickets={tickets} setTickets={setTickets} currentMatch={currentMatch} loggedUser={loggedUser}></TicketsTable>
        }
+       {mainView === 'MATCHES' && <InfoMessages/>}
       </Paper>
       
     </Box>
