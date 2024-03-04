@@ -27,7 +27,8 @@ const MainPage: React.FC = () => {
     const fetchMatches = async () => {
       try {
         let response = null
-        if (!DEBUG) response = await axios.get('https://iunticket-fdba432ee24a.herokuapp.com/api/match');
+        //if (!DEBUG) response = await axios.get('https://iunticket-fdba432ee24a.herokuapp.com/api/match');
+        if (!DEBUG) response = await axios.get('https://www.iunticket.it/api/match');
         else response = await axios.get('http://localhost:31491/api/match');
         setMatches(response.data);
       } catch (error) {

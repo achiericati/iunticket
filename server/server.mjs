@@ -11,13 +11,6 @@ const __dirname = dirname(__filename);
 const app = express();
 app.use(express.static(join(__dirname, '../build')));
 
-/*app.use(function(req, res, next) {
-  if(!req.secure) {
-      return res.redirect(['https://', req.get('Host'), req.url].join(''));
-  }
-  next();
-});*/
-
 app.get('/', (req, res) => {
   res.sendFile(join(__dirname, '../build', 'index.html'));
 });
@@ -44,17 +37,6 @@ connection.connect((err) => {
   }
 });
 
-/*const allowedOrigins = ['https://iunticket-fdba432ee24a.herokuapp.com',
-'http://localhost:3000', 'https://www.iunticket.it', 'https://iunticket.it', ];
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  }
-};*/
 app.use(cors());
 app.use(bodyParser.json());
 
