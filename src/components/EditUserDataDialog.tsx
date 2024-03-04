@@ -65,7 +65,7 @@ const EditUserDataDialog = ({
           email: email,
         }
         let response = null
-        if (!DEBUG) response = await axios.post('https://iunticket-fdba432ee24a.herokuapp.com/api/editUser', body);
+        if (!DEBUG) response = await axios.post('https://www.iunticket.it/api/editUser', body);
         else response = await axios.post('http://localhost:31491/api/editUser', body);
         setLoggedUser(response.data[0])
         if (response.data && response.data.length > 0) setLoggedUser(response.data[0])

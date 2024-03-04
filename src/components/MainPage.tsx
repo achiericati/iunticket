@@ -27,7 +27,6 @@ const MainPage: React.FC = () => {
     const fetchMatches = async () => {
       try {
         let response = null
-        //if (!DEBUG) response = await axios.get('https://iunticket-fdba432ee24a.herokuapp.com/api/match');
         if (!DEBUG) response = await axios.get('https://www.iunticket.it/api/match');
         else response = await axios.get('http://localhost:31491/api/match');
         setMatches(response.data);
@@ -42,7 +41,7 @@ const MainPage: React.FC = () => {
   const handleShowTickets = async (matchID: number) => {
     try {
       let response = null
-      if (!DEBUG) response = await axios.get('https://iunticket-fdba432ee24a.herokuapp.com/api/tickets?matchID='+matchID);
+      if (!DEBUG) response = await axios.get('https://www.iunticket.it/api/tickets?matchID='+matchID);
       else response = await axios.get('http://localhost:31491/api/tickets?matchID='+matchID);
       setTickets(response.data);
       const currMatch = matches.filter(el=>el.ID === matchID)

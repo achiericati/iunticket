@@ -32,7 +32,7 @@ const DeleteTicketsDialog = ({
         const body = {
           ticketID: ticketID
         }
-        if (!DEBUG) await axios.post('https://iunticket-fdba432ee24a.herokuapp.com/api/deleteTickets', body);
+        if (!DEBUG) await axios.post('https://www.iunticket.it/api/deleteTickets', body);
         else await axios.post('http://localhost:31491/api/deleteTickets', body);
         const newTickets = tickets.filter(el => el.ID !== ticketID)
         setTickets(newTickets)

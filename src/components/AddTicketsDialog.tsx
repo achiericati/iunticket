@@ -55,7 +55,7 @@ const AddTicketsDialog = ({
           prezzo: prezzo
         }
         let response = null
-        if (!DEBUG) response = await axios.post('https://iunticket-fdba432ee24a.herokuapp.com/api/tickets', body);
+        if (!DEBUG) response = await axios.post('https://www.iunticket.it/api/tickets', body);
         else response = await axios.post('http://localhost:31491/api/tickets', body);
         const newTickets = [...tickets]
         if (response && response.data && response.data.length > 0) newTickets.push(response.data[0])

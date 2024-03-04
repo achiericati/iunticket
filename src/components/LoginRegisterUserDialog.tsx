@@ -51,7 +51,7 @@ const LoginRegisterUserDialog = ({
       if (view === 'LOGIN') {
         try {
           let response = null
-          if (!DEBUG) response = await axios.get('https://iunticket-fdba432ee24a.herokuapp.com/api/login?userName='+username+'&password='+password);
+          if (!DEBUG) response = await axios.get('https://www.iunticket.it/api/login?userName='+username+'&password='+password);
           else response = await axios.get('http://localhost:31491/api/login?userName='+username+'&password='+password);
           if (response.data && response.data.length > 0) setLoggedUser(response.data[0])
           setMainView('LOGGED')
@@ -96,7 +96,7 @@ const LoginRegisterUserDialog = ({
             created: created
           }
           let response = null
-          if (!DEBUG) response = await axios.post('https://iunticket-fdba432ee24a.herokuapp.com/api/register', body);
+          if (!DEBUG) response = await axios.post('https://www.iunticket.it/api/register', body);
           else response = await axios.post('http://localhost:31491/api/register', body);
           if (response.data && response.data.length > 0) setLoggedUser(response.data[0])
           setMainView('LOGGED')
