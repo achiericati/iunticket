@@ -44,7 +44,7 @@ connection.connect((err) => {
   }
 });
 
-const allowedOrigins = ['https://iunticket-fdba432ee24a.herokuapp.com', 
+/*const allowedOrigins = ['https://iunticket-fdba432ee24a.herokuapp.com',
 'http://localhost:3000', 'https://www.iunticket.it', 'https://iunticket.it', ];
 const corsOptions = {
   origin: function (origin, callback) {
@@ -54,8 +54,8 @@ const corsOptions = {
       callback(new Error('Not allowed by CORS'));
     }
   }
-};
-app.use(cors(corsOptions));
+};*/
+app.use(cors());
 app.use(bodyParser.json());
 
 app.get('/api/match', (req, res) => {
