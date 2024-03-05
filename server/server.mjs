@@ -151,23 +151,27 @@ app.get('/api/tickets', (req, res) => {
       console.error('Errore nella query:', error);
       res.status(500).send('Errore nel server.');
     } else {
-      const sql = 'UPDATE user set password = ?, nome = ?, cognome = ?, mail = ?, instagram = ?, cellulare = ? WHERE username = ?';
-      connection.query(sql, [new_pwd, nome, cognome, email, instagram, cellulare, userName], (error, results) => {
-      if (error) {
-        console.log(error)
-        res.status(500).send('Errore nel server.');
-      } else {
-        const sql = 'SELECT * FROM user WHERE username = ?';
-        connection.query(sql, [userName], (error, results, fields) => {
+
+      if (results.length > 0) {
+        const sql = 'UPDATE user set password = ?, nome = ?, cognome = ?, mail = ?, instagram = ?, cellulare = ? WHERE username = ?';
+        connection.query(sql, [new_pwd, nome, cognome, email, instagram, cellulare, userName], (error, results) => {
         if (error) {
-          console.error('Errore nella query:', error);
+          console.log(error)
           res.status(500).send('Errore nel server.');
         } else {
-          res.json(results);
-        }
-        });
+          const sql = 'SELECT * FROM user WHERE username = ?';
+          connection.query(sql, [userName], (error, results, fields) => {
+          if (error) {
+            console.error('Errore nella query:', error);
+            res.status(500).send('Errore nel server.');
+          } else {
+            res.json(results);
+          }
+          });
       }
       });
+      }
+      else res.status(401).send('Username o password sbagliati.')
     }
     });
   });

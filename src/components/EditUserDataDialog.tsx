@@ -50,7 +50,7 @@ const EditUserDataDialog = ({
         setShowError(true)
         return
       }
-      if (password.length < 8) {
+      if (password !== '' && password.length < 8) {
         setShowError(true)
         setErrorMessage("La nupva password deve contenere almeno 8 caratteri.")
         return
