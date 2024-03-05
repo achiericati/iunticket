@@ -50,6 +50,11 @@ const EditUserDataDialog = ({
         setShowError(true)
         return
       }
+      if (password.length < 8) {
+        setShowError(true)
+        setErrorMessage("La nupva password deve contenere almeno 8 caratteri.")
+        return
+      }
       const nomeECognomeInseriti = nome !== '' && cognome !== ''
       if (instagram === '' && cellulare === ''  && email === ''  && !nomeECognomeInseriti) {
         setErrorMessage("Errore nella compilazione. Ti ricordo che devi inserire username, passowrd e almeno un contatto.")
