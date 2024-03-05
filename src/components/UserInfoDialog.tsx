@@ -29,7 +29,7 @@ const UserInfoDialog = ({
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>
-        <Box display="flex" alignItems="center">
+        <Box justifyContent="center" display="flex" alignItems="center">
           <InfoIcon style={{marginRight:"10px", fontSize:"35px"}} color="primary"></InfoIcon>
           <Box style={{fontSize:"25px"}}>Informazioni utente {infoUtente?.username}</Box>
         </Box>
@@ -82,15 +82,15 @@ const UserInfoDialog = ({
               </Box> 
           </Box>
         }
-         <Box justifyContent="center" display="flex" alignItems="center" marginTop="25px"> 
+         <Box justifyContent="center" display="flex" alignItems="center" marginTop="5px"> 
               <Box style={{ marginRight:"10px", fontSize:"18px", fontWeight:"bold"}}>
                 {'ATTENZIONE ALLE TRUFFE!'}
               </Box> 
         </Box>
         <Box justifyContent="center" display="flex" alignItems="center" marginTop="5px"> 
-              <Box style={{ marginRight:"10px", fontSize:"12px"}}>
-                {'Prendi le giuste precauzioni ogni volta che acquisti un biglietto: verifica i profili social del venditore e per essere sicuro di un eventuale rimborso accetta di pagare solo tramite Paypal - Beni e servizi.'}
-              </Box> 
+          <Box style={{ marginRight: "10px", fontSize: "12px", textAlign: "center" }}>
+            {'Prendi le giuste precauzioni ogni volta che acquisti un biglietto: verifica i profili social del venditore e per essere sicuro di un eventuale rimborso accetta di pagare solo tramite Paypal - beni e servizi.'}
+          </Box> 
         </Box>
       </DialogContent>
       <DialogActions>

@@ -2,11 +2,12 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-import { Box, Button, DialogContentText, Snackbar } from '@mui/material'
+import { Box, Button, DialogContentText, Snackbar, TextField } from '@mui/material'
 import { useEffect, useState } from 'react'
 import UserInfoInputComponents from './UserInfoInputComponents'
 import axios from 'axios'
 import { DEBUG_SERVER, User } from '../utils/interfaces'
+import PermIdentityIcon from '@mui/icons-material/PermIdentity'
 
 interface Props {
     openDialog: boolean;
@@ -22,6 +23,7 @@ const EditUserDataDialog = ({
     setLoggedUser
   }: Props) => {
     const [username, setUsername] = useState<string>('');
+    const [currentPassword, setCurrentPassword] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [nome, setNome] = useState<string>('');
     const [cognome, setCognome] = useState<string>('');
@@ -34,7 +36,6 @@ const EditUserDataDialog = ({
     useEffect(() => {
         if (loggedUser) {
           setUsername(loggedUser.username)
-          setPassword(loggedUser.password)
           setNome(loggedUser.nome || '')
           setCognome(loggedUser.cognome || '')
           setInstagram(loggedUser.instagram || '')
@@ -44,7 +45,8 @@ const EditUserDataDialog = ({
     }, [openDialog, loggedUser]);
 
     const editUser = async () => {
-      if (username === '' || password === '') {
+      if (currentPassword === '') {
+        setErrorMessage("Password attuale non inserita")
         setShowError(true)
         return
       }
@@ -57,7 +59,8 @@ const EditUserDataDialog = ({
       try {
         const body = {
           userName: username,
-          password: password,
+          password: currentPassword,
+          nuova_password: password,
           nome: nome,
           cognome: cognome,
           instagram: instagram,
@@ -96,11 +99,24 @@ const EditUserDataDialog = ({
       >
         <DialogTitle>{'Modifica dati'}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            {'Modifica qui i tuoi dati. Ti ricordo che sarà necessario almeno un contatto tra Instagram, Facebook (nome e cognome), email o cellulare.'}
+          <DialogContentText style={{marginBottom:'15px'}}>
+            {'Modifica qui i tuoi dati. Sarà necessario inserire la password attuale (e la nuova password se desideri modificarla), e almeno un contatto tra Instagram, Facebook (nome e cognome), email o cellulare.'}
           </DialogContentText>
         
           <Box>
+          <TextField
+            margin="dense"
+            id="password"
+            name="password"
+            label={<Box display="flex" alignItems="center"> <PermIdentityIcon color="primary" style={{marginRight:"5px"}}></PermIdentityIcon>{"Password attuale*"}</Box>}
+            value={currentPassword}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                  setCurrentPassword(event.target.value);
+                }}
+            type="password"
+            style={{marginBottom:'20px'}}
+            variant="standard"
+              />
             <UserInfoInputComponents showPassword={true} disableUsername={true}
               username={username} setUsername={setUsername}
               password={password} setPassword={setPassword}
