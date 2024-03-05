@@ -1,7 +1,7 @@
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogActions from '@mui/material/DialogActions'
-import { DEBUG, Ticket } from '../utils/interfaces'
+import { DEBUG_SERVER, Ticket } from '../utils/interfaces'
 import { Button } from '@mui/material'
 import { Box } from '@mui/material'
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber'
@@ -32,7 +32,7 @@ const DeleteTicketsDialog = ({
         const body = {
           ticketID: ticketID
         }
-        if (!DEBUG) await axios.post('https://www.iunticket.it/api/deleteTickets', body);
+        if (!DEBUG_SERVER) await axios.post('https://www.iunticket.it/api/deleteTickets', body);
         else await axios.post('http://localhost:31491/api/deleteTickets', body);
         const newTickets = tickets.filter(el => el.ID !== ticketID)
         setTickets(newTickets)

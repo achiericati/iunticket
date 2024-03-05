@@ -139,27 +139,39 @@ app.get('/api/tickets', (req, res) => {
   app.post('/api/editUser', (req, res) => {
     const userName = req.body.userName;
     const pwd = req.body.password;
+    const new_pwd = req.body.nuova_password || pwd
     const nome = req.body.nome || ''
     const cognome = req.body.cognome || ''
     const instagram = req.body.instagram || ''
     const cellulare = req.body.cellulare || ''
     const email = req.body.email || ''
-
-    const sql = 'UPDATE user set password = ?, nome = ?, cognome = ?, mail = ?, instagram = ?, cellulare = ? WHERE username = ?';
-    connection.query(sql, [pwd, nome, cognome, email, instagram, cellulare, userName], (error, results) => {
+    const sqlCheck = 'SELECT * FROM user WHERE username = ? and password = ?';
+    connection.query(sqlCheck, [userName, pwd], (error, results, fields) => {
     if (error) {
-      console.log(error)
+      console.error('Errore nella query:', error);
       res.status(500).send('Errore nel server.');
     } else {
-      const sql = 'SELECT * FROM user WHERE username = ?';
-      connection.query(sql, [userName], (error, results, fields) => {
-      if (error) {
-        console.error('Errore nella query:', error);
-        res.status(500).send('Errore nel server.');
-      } else {
-        res.json(results);
+
+      if (results.length > 0) {
+        const sql = 'UPDATE user set password = ?, nome = ?, cognome = ?, mail = ?, instagram = ?, cellulare = ? WHERE username = ?';
+        connection.query(sql, [new_pwd, nome, cognome, email, instagram, cellulare, userName], (error, results) => {
+        if (error) {
+          console.log(error)
+          res.status(500).send('Errore nel server.');
+        } else {
+          const sql = 'SELECT * FROM user WHERE username = ?';
+          connection.query(sql, [userName], (error, results, fields) => {
+          if (error) {
+            console.error('Errore nella query:', error);
+            res.status(500).send('Errore nel server.');
+          } else {
+            res.json(results);
+          }
+          });
       }
       });
+      }
+      else res.status(401).send('Username o password sbagliati.')
     }
     });
   });
