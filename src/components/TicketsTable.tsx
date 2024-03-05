@@ -3,7 +3,7 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import { DEBUG, MAIN_COLOR, Match, Ticket, User } from '../utils/interfaces'
+import { DEBUG_SERVER, MAIN_COLOR, Match, Ticket, User } from '../utils/interfaces'
 import PermIdentityIcon from '@mui/icons-material/PermIdentity'
 import { Box, FormControlLabel, IconButton, Switch, TableContainer, TextField, styled } from '@mui/material'
 import { useEffect, useState } from 'react'
@@ -70,7 +70,7 @@ const TicketsTable = ({
     const handleShowInfoUtente = async (userName: string) => {
       try {
         let response = null
-        if (!DEBUG) response = await axios.get('https://www.iunticket.it/api/infoUser?userName='+userName);
+        if (!DEBUG_SERVER) response = await axios.get('https://www.iunticket.it/api/infoUser?userName='+userName);
         else response = await axios.get('http://localhost:31491/api/infoUser?userName='+userName);
         if (response.data && response.data.length > 0) setInfoUtente(response.data[0]);
         setInfoUtenteDialogOpened(true);

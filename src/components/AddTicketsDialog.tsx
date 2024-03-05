@@ -2,7 +2,7 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-import { DEBUG, Match, Ticket, User } from '../utils/interfaces'
+import { DEBUG_SERVER, Match, Ticket, User } from '../utils/interfaces'
 import { Button, DialogContentText, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch, TextField } from '@mui/material'
 import { Box } from '@mui/material'
 import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber'
@@ -55,7 +55,7 @@ const AddTicketsDialog = ({
           prezzo: prezzo
         }
         let response = null
-        if (!DEBUG) response = await axios.post('https://www.iunticket.it/api/tickets', body);
+        if (!DEBUG_SERVER) response = await axios.post('https://www.iunticket.it/api/tickets', body);
         else response = await axios.post('http://localhost:31491/api/tickets', body);
         const newTickets = [...tickets]
         if (response && response.data && response.data.length > 0) newTickets.push(response.data[0])

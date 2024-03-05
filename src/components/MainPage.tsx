@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { Box, IconButton, Paper } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { Match, Ticket, MAIN_COLOR, User, DEBUG } from '../utils/interfaces'
+import { Match, Ticket, MAIN_COLOR, User, DEBUG_SERVER } from '../utils/interfaces'
 import TopBar from './TopBar'
 import InfoMessages from './InfoMessages'
 import MatchesTable from './MatchesTable'
@@ -27,7 +27,7 @@ const MainPage: React.FC = () => {
     const fetchMatches = async () => {
       try {
         let response = null
-        if (!DEBUG) response = await axios.get('https://www.iunticket.it/api/match');
+        if (!DEBUG_SERVER) response = await axios.get('https://www.iunticket.it/api/match');
         else response = await axios.get('http://localhost:31491/api/match');
         setMatches(response.data);
       } catch (error) {
@@ -41,7 +41,7 @@ const MainPage: React.FC = () => {
   const handleShowTickets = async (matchID: number) => {
     try {
       let response = null
-      if (!DEBUG) response = await axios.get('https://www.iunticket.it/api/tickets?matchID='+matchID);
+      if (!DEBUG_SERVER) response = await axios.get('https://www.iunticket.it/api/tickets?matchID='+matchID);
       else response = await axios.get('http://localhost:31491/api/tickets?matchID='+matchID);
       setTickets(response.data);
       const currMatch = matches.filter(el=>el.ID === matchID)
@@ -78,9 +78,11 @@ const MainPage: React.FC = () => {
          :
          <TicketsTable tickets={tickets} setTickets={setTickets} currentMatch={currentMatch} loggedUser={loggedUser}></TicketsTable>
        }
-       {mainView === 'MATCHES' && <InfoMessages/>}
+       {mainView === 'MATCHES' && 
+       <Box style={{marginTop:'15px'}}>
+          <InfoMessages/>
+       </Box>}
       </Paper>
-      
     </Box>
   );
 };

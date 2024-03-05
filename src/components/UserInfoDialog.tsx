@@ -76,12 +76,22 @@ const UserInfoDialog = ({
           </Box>
         }
         {infoUtente?.created_date && 
-          <Box justifyContent="center" display="flex" alignItems="center" marginTop="35px"> 
+          <Box justifyContent="center" display="flex" alignItems="center" marginTop="25px"> 
               <Box style={{ marginRight:"10px", fontSize:"12px"}}>
                 {'Utente creato il ' + infoUtente?.created_date}
               </Box> 
           </Box>
         }
+         <Box justifyContent="center" display="flex" alignItems="center" marginTop="25px"> 
+              <Box style={{ marginRight:"10px", fontSize:"18px", fontWeight:"bold"}}>
+                {'ATTENZIONE ALLE TRUFFE!'}
+              </Box> 
+        </Box>
+        <Box justifyContent="center" display="flex" alignItems="center" marginTop="5px"> 
+              <Box style={{ marginRight:"10px", fontSize:"12px"}}>
+                {'Prendi le giuste precauzioni ogni volta che acquisti un biglietto: verifica i profili social del venditore e per essere sicuro di un eventuale rimborso accetta di pagare solo tramite Paypal - Beni e servizi.'}
+              </Box> 
+        </Box>
       </DialogContent>
       <DialogActions>
       </DialogActions>

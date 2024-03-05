@@ -6,7 +6,7 @@ import { Box, Button, Checkbox, DialogContentText, Snackbar, TextField } from '@
 import { useEffect, useState } from 'react'
 import UserInfoInputComponents from './UserInfoInputComponents'
 import axios from 'axios'
-import { DEBUG, User } from '../utils/interfaces'
+import { DEBUG_SERVER, User } from '../utils/interfaces'
 import Accordion from '@mui/material/Accordion'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import AccordionDetails from '@mui/material/AccordionDetails'
@@ -51,7 +51,7 @@ const LoginRegisterUserDialog = ({
       if (view === 'LOGIN') {
         try {
           let response = null
-          if (!DEBUG) response = await axios.get('https://www.iunticket.it/api/login?userName='+username+'&password='+password);
+          if (!DEBUG_SERVER) response = await axios.get('https://www.iunticket.it/api/login?userName='+username+'&password='+password);
           else response = await axios.get('http://localhost:31491/api/login?userName='+username+'&password='+password);
           if (response.data && response.data.length > 0) setLoggedUser(response.data[0])
           setMainView('LOGGED')
@@ -96,7 +96,7 @@ const LoginRegisterUserDialog = ({
             created: created
           }
           let response = null
-          if (!DEBUG) response = await axios.post('https://www.iunticket.it/api/register', body);
+          if (!DEBUG_SERVER) response = await axios.post('https://www.iunticket.it/api/register', body);
           else response = await axios.post('http://localhost:31491/api/register', body);
           if (response.data && response.data.length > 0) setLoggedUser(response.data[0])
           setMainView('LOGGED')
