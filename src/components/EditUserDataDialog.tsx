@@ -42,6 +42,8 @@ const EditUserDataDialog = ({
           setCellulare(loggedUser.cellulare || '')
           setEmail(loggedUser.mail || '')
         }
+        setCurrentPassword('')
+        setPassword('')
     }, [openDialog, loggedUser]);
 
     const editUser = async () => {
@@ -80,7 +82,7 @@ const EditUserDataDialog = ({
         setOpenDialog(false)
       }
       catch (e) {
-        setErrorMessage("Username già esistente, provane un altro.")
+        setErrorMessage("Password sbagliata.")
         setShowError(true)
       }
     };
