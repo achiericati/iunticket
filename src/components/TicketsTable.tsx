@@ -112,6 +112,7 @@ const TicketsTable = ({
 
       {tickets.length > 0 ? (
         <TableContainer sx={{ width: '100%' }}>
+          <StyledTable>
           <Table aria-label="simple table">
             <TableHead>
               <TableRow>
@@ -150,6 +151,7 @@ const TicketsTable = ({
               ))}
             </TableBody>
           </Table>
+          </StyledTable>
         </TableContainer>
       ) : (
         <Box marginTop="25px" sx={{ fontSize: "20px", fontWeight: "bold", textAlign: 'center' }}>Ancora nessun biglietto disponibile!</Box>

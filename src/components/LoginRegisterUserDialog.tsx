@@ -38,6 +38,7 @@ const LoginRegisterUserDialog = ({
     const [privacyAccepted, setPrivacyAccepted] = useState<boolean>(false);
 
     useEffect(() => {
+      setView('LOGIN')
       setUsername('')
       setPassword('')
       setNome('')
@@ -45,6 +46,7 @@ const LoginRegisterUserDialog = ({
       setInstagram('')
       setCellulare('')
       setEmail('')
+      setPrivacyAccepted(false)
     }, [openDialog]);
 
     const loginOrRegister = async () => {
