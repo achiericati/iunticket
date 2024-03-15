@@ -17,6 +17,8 @@ import DeleteTicketsDialog from './DeleteTicketsDialog'
 interface Props {
     tickets: Ticket[]
     setTickets: (tickets: Ticket[]) => void
+    matches: Match[]
+    setMatches: (matches: Match[]) => void
     currentMatch?: Match
     loggedUser: User | null
   }
@@ -25,6 +27,8 @@ const TicketsTable = ({
     tickets,
     currentMatch,
     setTickets,
+    matches,
+    setMatches,
     loggedUser
   }: Props) => {
     const [filteredTickets, setFilteredTickets] = useState<Ticket[]>(tickets);
@@ -34,7 +38,7 @@ const TicketsTable = ({
     const [infoUtente, setInfoUtente] = useState<User>();
     const [addTicketDialogOpened, setAddTicketDialogOpened] = useState<boolean>(false);
     const [deleteTicketDialogOpened, setDeleteTicketDialogOpened] = useState<boolean>(false);
-    const [ticketToDelete, setTicketToDelete] = useState<number>();
+    const [ticketToDelete, setTicketToDelete] = useState<Ticket>();
 
     useEffect(() => {
       setFilteredTickets(tickets)
@@ -79,8 +83,8 @@ const TicketsTable = ({
       }
     }
 
-    const handleDeleteTicket = (ticketID: number) => {
-      setTicketToDelete(ticketID)
+    const handleDeleteTicket = (ticket: Ticket) => {
+      setTicketToDelete(ticket)
       setDeleteTicketDialogOpened(true)
     }
 
@@ -89,7 +93,7 @@ const TicketsTable = ({
       <Box sx={{ display: { xs: 'block', md: 'flex' }, justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
         <Box sx={{ marginBottom: { xs: '10px', md: 0 } }}>
         <FormControlLabel
-            control={<Switch defaultChecked checked={mostraSoloTDT} onChange={handleMostraSoloTDT} />}
+            control={<Switch checked={mostraSoloTDT} onChange={handleMostraSoloTDT} />}
             label="Mostra solo senza tessera del tifoso"
             sx={{ marginLeft: { xs: '0' }, marginBottom:'10px' }}
           />
@@ -113,7 +117,6 @@ const TicketsTable = ({
       {tickets.length > 0 ? (
         <TableContainer sx={{ width: '100%' }}>
           <StyledTable>
-          <Table aria-label="simple table">
             <TableHead>
               <TableRow>
               <TableCell style={{ fontWeight: "bold" }} align="center"></TableCell>
@@ -135,7 +138,7 @@ const TicketsTable = ({
                 >
                   <TableCell align="center">
                     {loggedUser?.username === ticket.user ?
-                      <IconButton onClick={() => handleDeleteTicket(ticket.ID)} color="primary" aria-label="Delete"><DeleteIcon /></IconButton>
+                      <IconButton onClick={() => handleDeleteTicket(ticket)} color="primary" aria-label="Delete"><DeleteIcon /></IconButton>
                       :
                       <IconButton onClick={() => handleShowInfoUtente(ticket.user)} color="primary" aria-label="Delete"><PermIdentityIcon /></IconButton>}
                   </TableCell>
@@ -150,15 +153,16 @@ const TicketsTable = ({
                 </TableRow>
               ))}
             </TableBody>
-          </Table>
           </StyledTable>
         </TableContainer>
       ) : (
         <Box marginTop="25px" sx={{ fontSize: "20px", fontWeight: "bold", textAlign: 'center' }}>Ancora nessun biglietto disponibile!</Box>
       )}
       <UserInfoDialog open={infoUtenteDialogOpened} setOpen={setInfoUtenteDialogOpened} infoUtente={infoUtente}></UserInfoDialog>
-      <AddTicketsDialog open={addTicketDialogOpened} setOpen={setAddTicketDialogOpened} currentMatch={currentMatch} tickets={tickets} setTickets={setTickets} loggedUser={loggedUser} ></AddTicketsDialog>
-      <DeleteTicketsDialog open={deleteTicketDialogOpened} setOpen={setDeleteTicketDialogOpened} ticketID={ticketToDelete} tickets={tickets} setTickets={setTickets} ></DeleteTicketsDialog>
+      <AddTicketsDialog open={addTicketDialogOpened} setOpen={setAddTicketDialogOpened} currentMatch={currentMatch} tickets={tickets} setTickets={setTickets} 
+      matches={matches} setMatches={setMatches} loggedUser={loggedUser} ></AddTicketsDialog>
+      <DeleteTicketsDialog open={deleteTicketDialogOpened} setOpen={setDeleteTicketDialogOpened} ticketToDelete={ticketToDelete} tickets={tickets} setTickets={setTickets}
+      matches={matches} setMatches={setMatches} currentMatch={currentMatch} ></DeleteTicketsDialog>
     </Box>
   );
 };

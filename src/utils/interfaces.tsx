@@ -11,6 +11,7 @@ export interface User {
 
   export interface Ticket {
     ID: number;
+    partitaID: number;
     user: string;
     anello: string;
     colore: string;
@@ -26,7 +27,7 @@ export interface User {
     partita: string;
     data: string;
     bigliettiDisponibili: number;
-    prezzoMin: number;
+    prezzoMin?: number;
   }
 
   export const MAIN_COLOR = "#03a9f4";

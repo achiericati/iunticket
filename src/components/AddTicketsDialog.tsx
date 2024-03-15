@@ -15,6 +15,8 @@ interface Props {
     currentMatch?: Match
     tickets: Ticket[]
     setTickets: (tickets: Ticket[]) => void
+    matches: Match[]
+    setMatches: (matches: Match[]) => void
     loggedUser: User|null
   }
 
@@ -24,6 +26,8 @@ const AddTicketsDialog = ({
     currentMatch,
     tickets,
     setTickets,
+    matches,
+    setMatches,
     loggedUser
   }: Props) => {
     const [anello, setAnello] = useState<number>(1);
@@ -57,9 +61,24 @@ const AddTicketsDialog = ({
         let response = null
         if (!DEBUG_SERVER) response = await axios.post('https://www.iunticket.it/api/tickets', body);
         else response = await axios.post('http://localhost:31491/api/tickets', body);
-        const newTickets = [...tickets]
-        if (response && response.data && response.data.length > 0) newTickets.push(response.data[0])
-        setTickets(newTickets)
+
+        if (response && response.data && response.data.length > 0) {
+          const addedTicket: Ticket = response.data[0]
+
+          const newTickets = [...tickets]
+          newTickets.push(addedTicket)
+          setTickets(newTickets)
+
+          const newMatches = [...matches]
+          for (let match of newMatches) {
+            if (match.ID === addedTicket.partitaID) {
+              match.bigliettiDisponibili = match.bigliettiDisponibili + 1
+              if (!match.prezzoMin) match.prezzoMin = addedTicket.prezzo
+              else if (addedTicket.prezzo && match.prezzoMin > addedTicket.prezzo) match.prezzoMin = addedTicket.prezzo
+            }
+          }
+          setMatches(newMatches)
+        }
       }
       catch (e) {}
       setOpen(false);
@@ -201,7 +220,7 @@ const AddTicketsDialog = ({
               variant="standard"
             />
 
-            <FormControlLabel control={<Switch defaultChecked checked={necessariaTDT} onChange={(event) => setNecessariaTDT(event.target.checked)} />} label="Necessaria TDT" style={{ marginTop: "30px" }} />
+            <FormControlLabel control={<Switch checked={necessariaTDT} onChange={(event) => setNecessariaTDT(event.target.checked)} />} label="Necessaria TDT" style={{ marginTop: "30px" }} />
           </Box>
         ) : (
           <Box style={{ fontSize: "20px", fontWeight: "bold", marginTop: "25px" }}>Effettua il login o registrati per inserire i tuoi biglietti.</Box>

@@ -10,12 +10,12 @@ import { IconButton, TableContainer, styled } from '@mui/material'
 
 interface Props {
     matches: Match[]
-    handleShowTickets: (matchID: number) => void
+    handleLoadTickets: (matchID: number) => void
   }
 
 const MatchesTable = ({
     matches,
-    handleShowTickets
+    handleLoadTickets
   }: Props) => {
 
     const StyledTable = styled(Table)({
@@ -27,7 +27,7 @@ const MatchesTable = ({
   return (
     <TableContainer style={{width: "100%", marginTop:"10px"}}>
     <StyledTable>
-    <Table aria-label="simple table">
+    
       <TableHead>
         <TableRow>
           <TableCell style={{fontWeight:"bold"}} align="center">Biglietti</TableCell>
@@ -43,7 +43,7 @@ const MatchesTable = ({
               key={match.ID}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-               <TableCell align="center"><IconButton onClick={() => handleShowTickets(match.ID)} color="primary" aria-label="Delete">
+               <TableCell align="center"><IconButton onClick={() => handleLoadTickets(match.ID)} color="primary" aria-label="Delete">
               <ConfirmationNumberIcon /></IconButton></TableCell>
               <TableCell>{match.partita}</TableCell>
               <TableCell align="center">{match.data}</TableCell>
@@ -52,7 +52,6 @@ const MatchesTable = ({
             </TableRow>
           ))}
       </TableBody>
-    </Table>
     </StyledTable>
         </TableContainer>
   );

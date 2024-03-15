@@ -14,7 +14,7 @@ const MainPage: React.FC = () => {
   const userContext = new UserContext();
   const [mainView, setMainView] = useState<'MATCHES'|'TICKETS'>('MATCHES');
   const [matches, setMatches] = useState<Match[]>([]);
-  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [currentMatchTickets, setCurrentMatchTickets] = useState<Ticket[]>([]);
   const [currentMatch, setCurrentMatch] = useState<Match>();
   const [loggedUser, setLoggedUser] = useState<User | null>(userContext.getCurrentUser());
 
@@ -34,16 +34,15 @@ const MainPage: React.FC = () => {
         console.error('Errore nel recupero delle partite:', error);
       }
     };
-
     fetchMatches();
   }, []);
 
-  const handleShowTickets = async (matchID: number) => {
+  const handleLoadTickets = async (matchID: number) => {
     try {
       let response = null
       if (!DEBUG_SERVER) response = await axios.get('https://www.iunticket.it/api/tickets?matchID='+matchID);
       else response = await axios.get('http://localhost:31491/api/tickets?matchID='+matchID);
-      setTickets(response.data);
+      setCurrentMatchTickets(response.data);
       const currMatch = matches.filter(el=>el.ID === matchID)
       if (currMatch.length > 0) setCurrentMatch(currMatch[0])
       setMainView('TICKETS')
@@ -74,9 +73,9 @@ const MainPage: React.FC = () => {
           </Box>
        }
        {mainView === 'MATCHES' ?
-         <MatchesTable matches={matches} handleShowTickets={handleShowTickets}></MatchesTable>
+         <MatchesTable matches={matches} handleLoadTickets={handleLoadTickets}></MatchesTable>
          :
-         <TicketsTable tickets={tickets} setTickets={setTickets} currentMatch={currentMatch} loggedUser={loggedUser}></TicketsTable>
+         <TicketsTable tickets={currentMatchTickets} setTickets={setCurrentMatchTickets} matches={matches} setMatches={setMatches} currentMatch={currentMatch} loggedUser={loggedUser}></TicketsTable>
        }
        {mainView === 'MATCHES' && 
        <Box style={{marginTop:'15px'}}>
