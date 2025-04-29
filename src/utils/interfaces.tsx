@@ -31,4 +31,4 @@ export interface User {
   }
 
   export const MAIN_COLOR = "#03a9f4";
-  export const DEBUG_SERVER = false;
+  export const DEBUG_SERVER = true;

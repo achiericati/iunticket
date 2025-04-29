@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 31491
 
 const connection = mysql.createConnection({
-  host: '9z6n6e.stackhero-network.com',
+  host: 'localhost',
   user: 'root',
   port: 3306,
   password: '6z6P1Dadytt24aFQkxjvgljQW4G4Ydgm',

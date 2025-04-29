@@ -1,88 +1,65 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios';
-import { Box, IconButton, Paper } from '@mui/material'
-import ArrowBackIcon from '@mui/icons-material/ArrowBack'
-import { Match, Ticket, MAIN_COLOR, User, DEBUG_SERVER } from '../utils/interfaces'
-import TopBar from './TopBar'
-import InfoMessages from './InfoMessages'
-import MatchesTable from './MatchesTable'
-import TicketsTable from './TicketsTable'
-import SportsSoccerIcon from '@mui/icons-material/SportsSoccer'
+import React, { useState, useEffect } from 'react';
+import TopBar from './TopBar';
+import EventCard from './EventCard';
+import { Match, User } from '../utils/interfaces';
 import { UserContext } from '../utils/userContext';
+import { useNavigate } from 'react-router-dom';
 
 const MainPage: React.FC = () => {
   const userContext = new UserContext();
-  const [mainView, setMainView] = useState<'MATCHES'|'TICKETS'>('MATCHES');
   const [matches, setMatches] = useState<Match[]>([]);
-  const [currentMatchTickets, setCurrentMatchTickets] = useState<Ticket[]>([]);
-  const [currentMatch, setCurrentMatch] = useState<Match>();
   const [loggedUser, setLoggedUser] = useState<User | null>(userContext.getCurrentUser());
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setLoggedUser(loggedUser)
-    userContext.setCurrentUser(loggedUser)
+    setLoggedUser(loggedUser);
+    userContext.setCurrentUser(loggedUser);
   }, [loggedUser]);
 
   useEffect(() => {
     const fetchMatches = async () => {
       try {
-        let response = null
-        if (!DEBUG_SERVER) response = await axios.get('https://www.iunticket.it/api/match');
-        else response = await axios.get('http://localhost:31491/api/match');
-        setMatches(response.data);
+        const mockMatches = [
+          { ID: 1, partita: "Inter - Cagliari", data: "23/08/2025", bigliettiDisponibili: 89, prezzoMin: 25 },
+          { ID: 2, partita: "Concerto Ligabue - Milano", data: "02/09/2025", bigliettiDisponibili: 71, prezzoMin: 39 },
+        ];
+        setMatches(mockMatches);
       } catch (error) {
-        console.error('Errore nel recupero delle partite:', error);
+        console.error('Errore nel recupero degli eventi:', error);
       }
     };
     fetchMatches();
   }, []);
 
-  const handleLoadTickets = async (matchID: number) => {
-    try {
-      let response = null
-      if (!DEBUG_SERVER) response = await axios.get('https://www.iunticket.it/api/tickets?matchID='+matchID);
-      else response = await axios.get('http://localhost:31491/api/tickets?matchID='+matchID);
-      setCurrentMatchTickets(response.data);
-      const currMatch = matches.filter(el=>el.ID === matchID)
-      if (currMatch.length > 0) setCurrentMatch(currMatch[0])
-      setMainView('TICKETS')
-    } catch (error) {
-      console.error('Errore nel recupero dei biglietti:', error);
-    }
-  }
+  const handleGoToTickets = (matchID: number) => {
+    navigate(`/tickets/${matchID}`);
+  };
 
   return (
-    <Box>
-      <TopBar loggedUser={loggedUser} setLoggedUser={setLoggedUser}/>
-      <Paper style={{padding:"15px"}}>
-        {mainView === 'TICKETS' && 
-        <Box fontWeight="bold" style={{color:MAIN_COLOR}} display="flex" alignItems="center" marginBottom="20px">
-          <IconButton onClick={() => {setMainView('MATCHES'); setCurrentMatch(undefined)}} style={{marginTop:"10px", color:MAIN_COLOR}} aria-label="Back">
-            <ArrowBackIcon />
-            <Box fontWeight="bold" fontSize="18px" style={{color: "black"}}>
-              {'Torna alla lista partite'}
-            </Box>
-          </IconButton>
-          </Box>
-        }
+    <div className="min-h-screen bg-gradient-to-br from-sky-100 via-white to-sky-200 text-gray-800">
+      <TopBar loggedUser={loggedUser} setLoggedUser={setLoggedUser} />
+      <div className="w-full px-6 py-6">
+        <div className="text-center mb-10">
+          <h1 className="text-4xl sm:text-5xl font-extrabold text-sky-600 tracking-tight">
+            Trova o vendi il tuo biglietto su iUnTicket!
+          </h1>
+          <p className="text-gray-600 text-lg mt-4 max-w-2xl mx-auto">
+            Partite, concerti, eventi: mettiamo in contatto persone reali per scambiarsi biglietti in modo semplice e sicuro.
+            Zero commissioni, solo passione condivisa.
+          </p>
+        </div>
 
-        {currentMatch && 
-          <Box fontWeight="bold" fontSize="25px" style={{color: "black", marginBottom:"20px"}} display="flex" alignItems="center" >
-            <SportsSoccerIcon fontSize="inherit" color="primary" style={{marginRight:"10px"}} />
-            {currentMatch.partita + ' - ' + currentMatch.data}
-          </Box>
-       }
-       {mainView === 'MATCHES' ?
-         <MatchesTable matches={matches} handleLoadTickets={handleLoadTickets}></MatchesTable>
-         :
-         <TicketsTable tickets={currentMatchTickets} setTickets={setCurrentMatchTickets} matches={matches} setMatches={setMatches} currentMatch={currentMatch} loggedUser={loggedUser}></TicketsTable>
-       }
-       {mainView === 'MATCHES' && 
-       <Box style={{marginTop:'15px'}}>
-          <InfoMessages/>
-       </Box>}
-      </Paper>
-    </Box>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {matches.map(match => (
+            <EventCard
+              key={match.ID}
+              match={match}
+              onClick={() => handleGoToTickets(match.ID)}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
   );
 };
 
